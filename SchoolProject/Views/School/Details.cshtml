@@ -1,0 +1,49 @@
+﻿@using School.Data.Entities
+
+@section Styles {
+	<link href="~/css/schoolDetail.css" rel="stylesheet" />
+}
+@{
+	ViewData["Title"] = "Details";
+}
+@model ClassDetailsViewModel
+
+<section>
+	<table>
+		<caption><h2>Okulun Öğrencileri</h2></caption>
+		<thead>
+			<tr>
+				<th>Öğrenci ID</th>
+				<th>Adı</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (Student student in Model.Students) {
+				<tr>
+					<td>@student.Id</td>
+					<td>@student.Name</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</section>
+<section>
+	<table>
+		<caption><h2>Okulun Sınıfları</h2></caption>
+		<thead>
+			<tr>
+				<th>Sınıf ID</th>
+				<th>Adı</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var classes in Model.Students) {
+				<tr>
+					<td>@classes.Class.Id</td>
+					<td>@(classes.Class.Degree)-@(classes.Class.Name)</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</section>
+

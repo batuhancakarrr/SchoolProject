@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - SchoolProject</title>
+	<link href="~/css/layout.css" rel="stylesheet" />
+	<script src="~/lib/jquery-3.7.1.min.js"></script>
+	<script src="https://kit.fontawesome.com/03fb694df2.js" crossorigin="anonymous"></script>
+	@await RenderSectionAsync("Styles", required: false)
+</head>
+<header>
+	<div>
+		<a href="/Schools">Okullar</a>
+		<a href="/Classes">Sınıflar</a>
+		<a href="/Teachers">Öğretmenler</a>
+		<a href="/Students">Öğrenciler</a>
+	</div>
+</header>
+<body>
+@RenderBody()
+</body>
+@await RenderSectionAsync("Scripts", required: false)
+</html>

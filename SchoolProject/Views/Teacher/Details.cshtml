@@ -1,0 +1,30 @@
+﻿@using School.Data.Entities
+
+@section Styles {
+	<link href="~/css/teacherDetail.css" rel="stylesheet" />
+}
+@model ClassTeacherViewModel
+
+<section>
+	<table>
+		<thead>
+			<caption><h2>Öğretmen Bilgileri</h2></caption>
+		</thead>
+		<tbody>
+		<td>
+			<h4>Öğretmen Adı:</h4> @Model.Teacher.Name
+		</td>
+		<td>
+			<h4>Branşı: </h4>@Model.Teacher.Branch
+		</td>
+		<td>
+			<h4>Derse Girdiği Sınıflar:</h4>
+				@foreach (var classteacher in Model.ClassTeachers) {
+				<ul>
+					<li>@(classteacher.Class.Degree)-@(classteacher.Class.Name)</li>
+				</ul>
+				}
+		</td>
+		</tbody>
+	</table>
+</section>

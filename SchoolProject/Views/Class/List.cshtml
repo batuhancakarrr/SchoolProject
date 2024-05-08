@@ -1,0 +1,32 @@
+﻿@using School.Data.Entities;
+
+@section Styles {
+	<link href="~/css/classlist.css" rel="stylesheet" />
+}
+@model List<Class>
+<section>
+	<table>
+		<thead>
+			<tr>
+				<th>Sınıf ID</th>
+				<th>Sınıf</th>
+				<th>Okul</th>
+				<th>Detay</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (Class classes in Model) {
+				<tr>
+					<td>@classes.Id</td>
+					<td>@(classes.Degree)-@(classes.Name)</td>
+					<td>@classes.School.Name</td>
+					<td>
+						<a href="/Classes/Details/@classes.Id">
+							<i class="fa-solid fa-circle-info"></i>
+						</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</section>

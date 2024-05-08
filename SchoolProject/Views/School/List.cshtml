@@ -1,0 +1,56 @@
+﻿@using EntitySchool = School.Data.Entities.School
+@section Styles {
+	<link href="~/css/schoollist.css" rel="stylesheet" />
+}
+@section Scripts
+{
+	<script src="~/js/schoollist.js"></script>
+}
+@model List<EntitySchool>
+
+<div id="overlay">
+	<div class="formPopUp" id="formPopUp">
+		<form>
+			<h1>Okul Güncelle</h1>
+			<label>Okul İsmi*</label>
+			<input type="text" required />
+			<label>Adres*</label>
+			<textarea placeholder="Adres giriniz"></textarea>
+			<span>
+				<div onclick="closePopup()">İptal et</div>
+				<button type="button" id="kaydet">Kaydet</button>
+			</span>
+		</form>
+	</div>
+</div>
+
+
+
+<section>
+	<button id="yeni">Yeni Okul Ekle</button>
+	<table>
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Okul İsmi</th>
+				<th>Adres</th>
+				<th>Bilgi</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (EntitySchool school in Model) {
+				<tr>
+					<td>@school.Id</td>
+					<td>@school.Name</td>
+					<td>@school.Address</td>
+					<td>
+						<a href="/Schools/Details/@school.Id">
+							<i class="fa-solid fa-circle-info"></i>
+						</a>
+					</td>
+				</tr>
+			}			
+		</tbody>
+	</table>
+</section>
+

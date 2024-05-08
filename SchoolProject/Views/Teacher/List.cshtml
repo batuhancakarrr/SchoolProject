@@ -1,0 +1,29 @@
+﻿@using School.Data.Entities;
+@section Styles {
+	<link href="~/css/teacherlist.css" rel="stylesheet" />
+}
+@model List<Teacher>
+<section>
+	<table>
+		<thead>
+			<tr>
+				<th>Öğretmen İsmi</th>
+				<th>Branş</th>
+				<th>Detay</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (Teacher teacher in Model) {
+				<tr>
+					<td>@teacher.Name</td>
+					<td>@teacher.Branch</td>
+					<td>
+						<a href="/Teachers/Details/@teacher.Id">
+							<i class="fa-solid fa-circle-info"></i>
+						</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</section>

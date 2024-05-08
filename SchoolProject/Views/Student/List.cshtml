@@ -1,0 +1,33 @@
+﻿@using School.Data.Entities;
+
+@section Styles {
+	<link href="~/css/studentlist.css" rel="stylesheet" />
+}
+@model List<Student>
+<section>
+	<table>
+		<thead>
+			<tr>
+				<th>Öğrenci İsmi</th>
+				<th>Sınıfı</th>
+				<th>Okulu</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (Student student in Model)
+			{
+				<tr>
+					<td>@student.Name</td>
+					<td>@(student.Class.Degree)-@(student.Class.Name)</td>
+					<td>@(student.Class.School.Name)</td>
+					<td><a href="/Student?id=@(student.Id)">a</a></td>
+				</tr>
+			}	
+		<tbody>
+	</table>
+</section>
+
+@section Scripts
+{
+
+}
