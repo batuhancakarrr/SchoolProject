@@ -1,7 +1,7 @@
-﻿table {
-	font-family: arial, sans-serif;
-	border - collapse: collapse;
-	width: 70 %;
+﻿
+table {
+	border-collapse: collapse;
+	width: 50%;
 }
 
 td, th {
@@ -10,16 +10,17 @@ td, th {
 	padding: 8px;
 }
 
-tr: nth - child(even) {
-	background - color: #dddddd;
-}
-
 section {
-	padding: 10px;
+	padding: 50px;
 	display: flex;
-	justify - content: center;
+	gap: 10px;
+	justify-content: center;
 }
 
 	section > table > caption {
 		padding: 10px;
 	}
+
+		section > div {
+			display:inline-block;
+		}
