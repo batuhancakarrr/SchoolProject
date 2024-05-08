@@ -11,18 +11,22 @@
 				<th>Öğrenci İsmi</th>
 				<th>Sınıfı</th>
 				<th>Okulu</th>
+				<th>Bilgi</th>
 			</tr>
 		</thead>
 		<tbody>
-			@foreach (Student student in Model)
-			{
+			@foreach (Student student in Model) {
 				<tr>
 					<td>@student.Name</td>
 					<td>@(student.Class.Degree)-@(student.Class.Name)</td>
-					<td>@(student.Class.School.Name)</td>
-					<td><a href="/Student?id=@(student.Id)">a</a></td>
+					<td>@student.Class.School.Name</td>
+					<td>
+						<a href="/Students/Details/@student.Id">
+							<i class="fa-solid fa-circle-info"></i>
+						</a>
+					</td>
 				</tr>
-			}	
+			}
 		<tbody>
 	</table>
 </section>
