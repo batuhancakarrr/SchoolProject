@@ -18,3 +18,8 @@ section > table {
     margin: 200px auto;
     width: 800px;
 }
+
+i {
+    cursor: pointer;
+    color: blue;
+}

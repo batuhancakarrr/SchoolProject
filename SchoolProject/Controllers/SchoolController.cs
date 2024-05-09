@@ -19,8 +19,23 @@ public class SchoolController : Controller {
 	[Route("Schools/Details/{id}")]
 	public IActionResult Details(int id) {
 		List<Student> students = context.Students.Where(s => s.Class.SchoolId == id).Include(x => x.Class).ToList();
-		model.Students = students;
+		return View(students);
+	}
+	[Route("Schools/Edit/{id}")]
+	public IActionResult Edit(int id) {
+		var school = context.Schools.FirstOrDefault(s => s.Id == id);
+		return Json(school);
+	}
+	[HttpPost]
+	[Route("Schools/Update/{id}")]
+	public IActionResult Update(int id, string name, string address) {
+		var school = context.Schools.FirstOrDefault(c => c.Id == id);
 
-		return View(model);
+		school.Name = name;
+		school.Address = address;
+
+		context.SaveChanges();
+
+		return Ok();
 	}
 }

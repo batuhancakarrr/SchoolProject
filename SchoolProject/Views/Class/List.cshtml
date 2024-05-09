@@ -3,7 +3,30 @@
 @section Styles {
 	<link href="~/css/classlist.css" rel="stylesheet" />
 }
+
 @model List<Class>
+
+<h1>Sınıflar</h1>
+<!-- popup -->
+<div id="overlay">
+	<div id="formPopUp">
+		<h1>Sınıf Düzenle</h1>
+		<form>
+			<input type="hidden" id="classId" />
+			<label>Sınıf Derecesi</label>
+			<input type="text" id="degree" required />
+			<label>Sınıf Adı</label>
+			<input type="text" id="className" required />
+			<span>
+				<div onclick="closePopup()">İptal et</div>
+				<button type="button" id="kaydet" >Kaydet</button>
+			</span>
+		</form>
+	</div>
+</div>
+
+
+
 <section>
 	<table>
 		<thead>
@@ -12,6 +35,7 @@
 				<th>Sınıf</th>
 				<th>Okul</th>
 				<th>Detay</th>
+				<th>Düzenle</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -25,8 +49,15 @@
 							<i class="fa-solid fa-circle-info"></i>
 						</a>
 					</td>
+					<td>
+						<i data-id="@classes.Id" class="fa-solid fa-pen-to-square edit"></i>
+					</td>
 				</tr>
 			}
 		</tbody>
 	</table>
 </section>
+@section Scripts
+{
+	<script src="~/js/class.js"></script>
+}

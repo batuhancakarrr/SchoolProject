@@ -3,6 +3,27 @@
 	<link href="~/css/teacherlist.css" rel="stylesheet" />
 }
 @model List<Teacher>
+
+<h1>Öğretmenler</h1>
+<!-- popup -->
+<div id="overlay">
+	<div class="formPopUp" id="formPopUp">
+		<h1>Öğretmen Güncelle</h1>
+		<form>
+			<label>Öğretmen İsmi</label>
+			<input type="text" required />
+			<label>Branş</label>
+			<input type="text" required />
+			<span>
+				<div onclick="closePopup()">İptal et</div>
+				<button type="button" id="kaydet">Kaydet</button>
+			</span>
+		</form>
+	</div>
+</div>
+
+
+
 <section>
 	<table>
 		<thead>
@@ -10,6 +31,7 @@
 				<th>Öğretmen İsmi</th>
 				<th>Branş</th>
 				<th>Detay</th>
+				<th>Düzenle</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -22,8 +44,15 @@
 							<i class="fa-solid fa-circle-info"></i>
 						</a>
 					</td>
+					<td>
+						<i data-id="@teacher.Id" class="fa-solid fa-pen-to-square edit"></i>
+					</td>
 				</tr>
 			}
 		</tbody>
 	</table>
 </section>
+
+@section Scripts {
+	<script src="~/js/editpopup.js"></script>
+}

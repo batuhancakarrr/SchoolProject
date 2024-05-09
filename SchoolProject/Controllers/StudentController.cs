@@ -16,4 +16,27 @@ public class StudentController : Controller {
 		Student student = context.Students.Include(x => x.Class).ThenInclude(x => x.School).FirstOrDefault(x => x.Id == id);
 		return View(student);
 	}
+	[Route("Students/Edit/{id}")]
+	public IActionResult Edit(int id) {
+		Student student = context.Students.FirstOrDefault(x => x.Id == id);
+		return Json(student);
+	}
+	[HttpPost]
+	[Route("Students/Update/{id}")]
+	public IActionResult Update(int id, string name, int classId) {
+		Student student = context.Students.FirstOrDefault(c => c.Id == id);
+		Class classes = context.Classes.FirstOrDefault(c => c.Id == classId);
+
+		try {
+			if (classes != null) {
+				student.Name = name;
+				student.ClassId = classes.Id;
+				context.SaveChanges();
+			}
+		}
+		catch {
+			return BadRequest("Sınıf bulunamadı.");
+		}
+		return Ok();
+	}
 }

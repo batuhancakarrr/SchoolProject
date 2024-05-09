@@ -3,7 +3,28 @@
 @section Styles {
 	<link href="~/css/studentlist.css" rel="stylesheet" />
 }
+
 @model List<Student>
+
+<h1>Öğrenciler</h1>
+<!-- popup -->
+<div id="overlay">
+	<div id="formPopUp">
+		<h1>Öğrenci Düzenle</h1>
+		<form>
+			<input type="hidden" id="studentId" />
+			<label>Öğrenci Adı</label>
+			<input type="text" id="studentName" required />
+			<label>Sınıf ID</label>
+			<input type="text" id="classId" required />
+			<span>
+				<div onclick="closePopup()">İptal et</div>
+				<button type="button" id="kaydet">Kaydet</button>
+			</span>
+		</form>
+	</div>
+</div>
+
 <section>
 	<table>
 		<thead>
@@ -12,6 +33,7 @@
 				<th>Sınıfı</th>
 				<th>Okulu</th>
 				<th>Bilgi</th>
+				<th>Düzenle</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -25,6 +47,9 @@
 							<i class="fa-solid fa-circle-info"></i>
 						</a>
 					</td>
+					<td>
+						<i data-id="@student.Id" class="fa-solid fa-pen-to-square edit"></i>
+					</td>
 				</tr>
 			}
 		<tbody>
@@ -33,5 +58,5 @@
 
 @section Scripts
 {
-
+	<script src="~/js/student.js"></script>
 }

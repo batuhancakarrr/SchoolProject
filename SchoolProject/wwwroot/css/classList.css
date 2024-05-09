@@ -1,24 +1,25 @@
 ﻿table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
 }
 
 td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
+	border: 1px solid #dddddd;
+	text-align: left;
+	padding: 8px;
 }
 
 tr:nth-child(even) {
-    background-color: #dddddd;
+	background-color: #dddddd;
 }
 
 section > table {
-    margin: 200px auto;
-    width: 800px;
+	margin: 200px auto;
+	width: 800px;
 }
 
-i{
-    cursor:pointer;
+i {
+	cursor: pointer;
+	color: blue;
 }

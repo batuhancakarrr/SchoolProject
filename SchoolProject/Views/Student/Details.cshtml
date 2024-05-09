@@ -6,19 +6,16 @@
 @model Student
 
 <section>
-	<div>
-		<table>
-			<caption><h2>Öğrenci Bilgileri</h2></caption>
-			<td>
-				<h4>Öğrenci Adı:</h4> @Model.Name
-			</td>
-			<td>
-				<h4>Sınıfı:</h4> @(Model.Class.Degree)-@(Model.Class.Name)
-			</td>
-			<td>
-				<h4>Okulu:</h4> @Model.Class.School.Name
-				<h4>Okulu:</h4> @Model.Class.School.Name
-			</td>
-		</table>
-	</div>
+	<table>
+		<caption><h2>Öğrenci Bilgileri</h2></caption>
+		<td>
+			<h4>Öğrenci Adı:</h4> @Model.Name
+		</td>
+		<td>
+			<h4>Sınıfı:</h4> @(Model.Class.Degree)-@(Model.Class.Name)
+		</td>
+		<td>
+			<h4>Okulu:</h4> @Model.Class.School.Name
+		</td>
+	</table>
 </section>

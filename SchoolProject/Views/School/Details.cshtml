@@ -6,7 +6,7 @@
 @{
 	ViewData["Title"] = "Details";
 }
-@model ClassDetailsViewModel
+@model List<Student>
 
 <section>
 	<table>
@@ -15,35 +15,19 @@
 			<tr>
 				<th>Öğrenci ID</th>
 				<th>Adı</th>
+				<th>Sınıfı</th>
 			</tr>
 		</thead>
 		<tbody>
-			@foreach (Student student in Model.Students) {
+			@foreach (Student student in Model) {
 				<tr>
 					<td>@student.Id</td>
 					<td>@student.Name</td>
+					<td>@(student.Class.Degree)-@(student.Class.Name)</td>
 				</tr>
 			}
 		</tbody>
 	</table>
 </section>
-<section>
-	<table>
-		<caption><h2>Okulun Sınıfları</h2></caption>
-		<thead>
-			<tr>
-				<th>Sınıf ID</th>
-				<th>Adı</th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach (var classes in Model.Students) {
-				<tr>
-					<td>@classes.Class.Id</td>
-					<td>@(classes.Class.Degree)-@(classes.Class.Name)</td>
-				</tr>
-			}
-		</tbody>
-	</table>
-</section>
+
 

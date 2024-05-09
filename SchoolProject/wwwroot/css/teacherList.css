@@ -19,6 +19,7 @@ section > table {
 	width: 800px;
 }
 
-i{
-	cursor:pointer;
+i {
+	cursor: pointer;
+	color: blue;
 }

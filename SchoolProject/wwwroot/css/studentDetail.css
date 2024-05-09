@@ -20,7 +20,3 @@ section {
 	section > table > caption {
 		padding: 10px;
 	}
-
-	section > div {
-		display: inline-block;
-	}
