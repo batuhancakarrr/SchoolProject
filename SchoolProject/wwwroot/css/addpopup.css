@@ -1,6 +1,6 @@
 ﻿/*#region PopUp*/
 
-#formPopUp {
+#addformPopUp {
     z-index: 1000;
     width: 400px;
     height: 400px;
@@ -9,7 +9,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: white;
-    display: none;
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -17,12 +17,12 @@
     border-radius: 10px;
 }
 
-    #formPopUp > h1 {
-        color: cornflowerblue;
+    #addformPopUp > h1 {
+        color: #194568;
         margin-top: 0px;
     }
 
-    #formPopUp > form {
+    #addformPopUp > form {
         display: flex;
         flex-direction: column;
         background-color: white;
@@ -32,13 +32,13 @@
         height: 60%;
     }
 
-        #formPopUp > form > label {
+        #addformPopUp > form > label {
             font-weight: bold;
             text-align: center;
             margin: 5px 5px;
         }
 
-        #formPopUp > form > span {
+        #addformPopUp > form > span {
             margin: 10px;
             display: flex;
             align-items: center;
@@ -46,34 +46,34 @@
             gap: 10px;
         }
 
-            #formPopUp > form > span > div {
+            #addformPopUp > form > span > div {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                color: deepskyblue;
+                color: #194568;
                 height: 30px;
                 width: 60px;
-                border: 1px solid deepskyblue;
+                border: 1px solid #194568;
                 border-radius: 5px;
                 cursor: pointer;
             }
 
-            #formPopUp > form > span #kaydet {
+            #addformPopUp > form > span #ekle {
                 color: white;
-                background-color: deepskyblue;
+                background-color: #194568;
                 border-radius: 5px;
-                border: 1px solid deepskyblue;
+                border: 1px solid #194568;
                 height: 30px;
                 width: 60px;
                 cursor: pointer;
             }
 
-                #formPopUp > form > span #kaydet:hover {
-                    color: deepskyblue;
-                    background-color: white;
+                #addformPopUp > form > span #ekle:hover {
+                    color: black;
+                    background-color: #C8F39C;
                 }
 /*#endregion*/
-#overlay {
+#addoverlay {
     display: none;
     position: fixed;
     top: 0;

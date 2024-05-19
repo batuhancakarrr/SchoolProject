@@ -4,11 +4,17 @@
 	<link href="~/css/schoolDetail.css" rel="stylesheet" />
 }
 @{
-	ViewData["Title"] = "Details";
+	var breadcrumbs = new List<PartialRouteModel> {
+		new("Ana Sayfa", "/Main/Index"),
+		new("Okullar","/Schools"),
+		new("Detay"),
+	};
 }
 @model List<Student>
 
 <section>
+	@Html.Partial("_Breadcrumb", breadcrumbs)
+
 	<table>
 		<caption><h2>Okulun Öğrencileri</h2></caption>
 		<thead>

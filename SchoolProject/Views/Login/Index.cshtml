@@ -1,0 +1,30 @@
+﻿@{
+	Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login</title>
+	<link href="~/css/Login.css" rel="stylesheet" />
+</head>
+<body>
+	<section>
+		<h1>Giriş Yap</h1>
+		<form action="/Login/Login" method="post">
+			<label for="username">Kullanıcı Adı</label>
+			<input type="text" name="username" id="username" />
+			<label for="password">Şifre</label>
+			<input type="password" name="password" id="password" />
+			<label for="userType">Kullanıcı Tipi</label>
+			<div>
+				<input type="radio" id="student" name="userType" value="student">
+				<label for="student">Öğrenci</label>
+				<input type="radio" id="teacher" name="userType" value="teacher">
+				<label for="teacher">Öğretmen</label>
+			</div>
+			<button type="submit" id="login">Giriş Yap</button>
+			<a href="/Register/Register">Hesabınız Yoksa Kaydolun</a>
+		</form>
+	</section>
+</body>
+</html>

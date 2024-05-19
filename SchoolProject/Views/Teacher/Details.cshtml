@@ -3,24 +3,34 @@
 @section Styles {
 	<link href="~/css/teacherDetail.css" rel="stylesheet" />
 }
+@{
+	var breadcrumbs = new List<PartialRouteModel> {
+		new("Ana Sayfa", "/Main/Index"),
+		new("Öğretmenler","/Teachers"),
+		new("Detay"),
+	};
+}
 @model List<ClassTeacher>
 
 <section>
-	<table>
-		<caption><h2>Öğretmen Bilgileri</h2></caption>
-		<td>
-			<h4>Öğretmen Adı:</h4> @Model.First().Teacher.Name
-		</td>
-		<td>
-			<h4>Branşı: </h4>@Model.First().Teacher.Branch
-		</td>
-	</table>
+	@Html.Partial("_Breadcrumb", breadcrumbs)
 	<div>
-		<h2>Derse Girdiği Sınıflar:</h2>
-		@foreach (var classteacher in Model) {
-			<ul>
-				<li>@(classteacher.Class.Degree)-@(classteacher.Class.Name)</li>
-			</ul>
-		}
+		<table>
+			<caption><h2>Öğretmen Bilgileri</h2></caption>
+			<td>
+				<h4>Öğretmen Adı:</h4> @Model.FirstOrDefault()?.Teacher?.Name
+			</td>
+			<td>
+				<h4>Branşı: </h4>@Model.FirstOrDefault()?.Teacher?.Branch
+			</td>
+		</table>
+		<div>
+			<h2>Derse Girdiği Sınıflar:</h2>
+			@foreach (var classteacher in Model) {
+				<ul>
+					<li>@(classteacher.Class.Degree)-@(classteacher.Class.Name)</li>
+				</ul>
+			}
+		</div>
 	</div>
 </section>

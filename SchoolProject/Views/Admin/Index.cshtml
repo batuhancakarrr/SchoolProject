@@ -1,0 +1,22 @@
+﻿@{
+	Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login</title>
+	<link href="~/css/Login.css" rel="stylesheet" />
+</head>
+<body>
+	<section>
+		<h1>Giriş Yap</h1>
+		<form action="/Admin/Admin" method="post">
+			<label for="username">Kullanıcı Adı</label>
+			<input type="text" name="username" id="username" />
+			<label for="password">Şifre</label>
+			<input type="password" name="password" id="password" />
+			<button type="submit" id="login">Giriş Yap</button>
+		</form>
+	</section>
+</body>
+</html>

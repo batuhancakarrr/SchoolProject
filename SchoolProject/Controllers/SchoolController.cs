@@ -1,41 +1,56 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using School.Data.Context;
-using School.Data.Entities;
-using SchoolProject.Models;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Repository.Abstracts;
 using EntitySchool = School.Data.Entities.School;
 
 namespace SchoolProject.Controllers;
+[Authorize]
 public class SchoolController : Controller {
-	SchoolContext context = new();
-	ClassDetailsViewModel model = new();
+	private readonly ISchoolRepository _schoolRepository;
+
+	public SchoolController(ISchoolRepository schoolRepository) {
+		_schoolRepository = schoolRepository;
+	}
 
 	[Route("Schools")]
 	public IActionResult List() {
-		List<EntitySchool> schoolList = context.Schools.ToList();
+		var schoolList = _schoolRepository.List();
 		return View(schoolList);
 	}
 
 	[Route("Schools/Details/{id}")]
 	public IActionResult Details(int id) {
-		List<Student> students = context.Students.Where(s => s.Class.SchoolId == id).Include(x => x.Class).ToList();
+		var students = _schoolRepository.GetStudentsBySchoolId(id);
 		return View(students);
 	}
+
 	[Route("Schools/Edit/{id}")]
 	public IActionResult Edit(int id) {
-		var school = context.Schools.FirstOrDefault(s => s.Id == id);
+		var school = _schoolRepository.GetById(id);
 		return Json(school);
 	}
+
+	[Route("Schools/Add"), HttpPost]
+	public IActionResult Add(EntitySchool school) {
+		_schoolRepository.Insert(school);
+		return RedirectToAction(nameof(List));
+	}
+
 	[HttpPost]
 	[Route("Schools/Update/{id}")]
 	public IActionResult Update(int id, string name, string address) {
-		var school = context.Schools.FirstOrDefault(c => c.Id == id);
-
+		var school = _schoolRepository.GetById(id);
 		school.Name = name;
 		school.Address = address;
-
-		context.SaveChanges();
-
+		_schoolRepository.Update(school);
 		return Ok();
+	}
+
+	[HttpPost]
+	[Route("Schools/Delete/{id}")]
+	public IActionResult Delete(int id) {
+		var school = _schoolRepository.GetById(id);
+		_schoolRepository.Delete(school);
+		return RedirectToAction(nameof(List));
 	}
 }

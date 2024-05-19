@@ -2,40 +2,73 @@
 
 @section Styles {
 	<link href="~/css/classlist.css" rel="stylesheet" />
+	<link href="~/css/editpopup.css" rel="stylesheet" />
+	<link href="~/css/addpopup.css" rel="stylesheet" />
 }
-
+@{
+	var breadcrumbs = new List<PartialRouteModel> {
+		new("Ana Sayfa", "/Main/Index"),
+		new("Sınıflar"),
+	};
+}
 @model List<Class>
 
-<h1>Sınıflar</h1>
-<!-- popup -->
-<div id="overlay">
-	<div id="formPopUp">
-		<h1>Sınıf Düzenle</h1>
-		<form>
-			<input type="hidden" id="classId" />
+<!-- Yeni -->
+
+<div id="addoverlay">
+	<div id="addformPopUp">
+		<h1>Sınıf Ekle</h1>
+		<form asp-controller="Classes" asp-action="Add" method="post">
 			<label>Sınıf Derecesi</label>
-			<input type="text" id="degree" required />
+			<input type="text" id="addegree" name="degree" required />
 			<label>Sınıf Adı</label>
-			<input type="text" id="className" required />
+			<input type="text" id="addclassName" name="name" required />
+			<label>Okul ID</label>
+			<input type="text" id="addschoolId" name="schoolid" required />
 			<span>
 				<div onclick="closePopup()">İptal et</div>
-				<button type="button" id="kaydet" >Kaydet</button>
+				<button type="submit" id="ekle">Kaydet</button>
 			</span>
 		</form>
 	</div>
 </div>
 
-
+<!-- Yeni -->
+<!-- popup -->
+<div id="editoverlay">
+	<div id="editformPopUp">
+		<h1>Sınıf Düzenle</h1>
+		<form>
+			<input type="hidden" id="editclassId" />
+			<label>Sınıf Derecesi</label>
+			<input type="text" id="editdegree" required />
+			<label>Sınıf Adı</label>
+			<input type="text" id="editclassName" required />
+			<span>
+				<div onclick="closePopup()">İptal et</div>
+				<button type="button" id="kaydet">Kaydet</button>
+			</span>
+		</form>
+	</div>
+</div>
+<!-- popup -->
 
 <section>
-	<table>
+	@Html.Partial("_Breadcrumb", breadcrumbs)
+
+	@if (User.IsInRole("admin")) {
+		<button type="button" id="new">Yeni Sınıf</button>
+	}
+	<table id="table" style="width: 100%">
 		<thead>
 			<tr>
 				<th>Sınıf ID</th>
 				<th>Sınıf</th>
 				<th>Okul</th>
 				<th>Detay</th>
-				<th>Düzenle</th>
+				@if (User.IsInRole("admin")) {
+					<th>Düzenle</th>
+				}
 			</tr>
 		</thead>
 		<tbody>
@@ -49,9 +82,11 @@
 							<i class="fa-solid fa-circle-info"></i>
 						</a>
 					</td>
-					<td>
-						<i data-id="@classes.Id" class="fa-solid fa-pen-to-square edit"></i>
-					</td>
+					@if (User.IsInRole("admin")) {
+						<td>
+							<i data-id="@classes.Id" class="fa-solid fa-pen-to-square edit"></i>
+						</td>
+					}
 				</tr>
 			}
 		</tbody>

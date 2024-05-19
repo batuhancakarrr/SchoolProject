@@ -1,19 +1,47 @@
 ﻿@using School.Data.Entities;
 @section Styles {
 	<link href="~/css/teacherlist.css" rel="stylesheet" />
+	<link href="~/css/addpopup.css" rel="stylesheet" />
+	<link href="~/css/editpopup.css" rel="stylesheet" />
+}
+@{
+	var breadcrumbs = new List<PartialRouteModel> {
+		new("Ana Sayfa", "/Main/Index"),
+		new("Öğretmenler")
+	};
 }
 @model List<Teacher>
 
-<h1>Öğretmenler</h1>
-<!-- popup -->
-<div id="overlay">
-	<div class="formPopUp" id="formPopUp">
-		<h1>Öğretmen Güncelle</h1>
-		<form>
-			<label>Öğretmen İsmi</label>
-			<input type="text" required />
+
+<!-- Yeni -->
+
+<div id="addoverlay">
+	<div id="addformPopUp">
+		<h1>Öğretmen Ekle</h1>
+		<form asp-controller="Teachers" asp-action="Add" method="post">
+			<label>Öğretmen Adı</label>
+			<input type="text" id="addName" name="name" required />
 			<label>Branş</label>
-			<input type="text" required />
+			<input type="text" id="addBranch" name="Branch" required />
+			<span>
+				<div onclick="closePopup()">İptal et</div>
+				<button type="submit" id="ekle">Kaydet</button>
+			</span>
+		</form>
+	</div>
+</div>
+
+<!-- Yeni -->
+<!-- popup -->
+<div id="editoverlay">
+	<div id="editformPopUp">
+		<h1>Öğretmen Düzenle</h1>
+		<form>
+			<input type="hidden" id="editteacherId" />
+			<label>Öğretmen Adı</label>
+			<input type="text" id="editname" required />
+			<label>Öğretmen Sınıfı</label>
+			<input type="text" id="editbranch" required />
 			<span>
 				<div onclick="closePopup()">İptal et</div>
 				<button type="button" id="kaydet">Kaydet</button>
@@ -21,17 +49,26 @@
 		</form>
 	</div>
 </div>
+<!-- popup -->
+
 
 
 
 <section>
-	<table>
+	@Html.Partial("_Breadcrumb", breadcrumbs)
+
+	@if (User.IsInRole("admin")) {
+		<button type="button" id="new">Yeni Öğretmen</button>
+	}
+	<table id="table" width="100%">
 		<thead>
 			<tr>
 				<th>Öğretmen İsmi</th>
 				<th>Branş</th>
 				<th>Detay</th>
-				<th>Düzenle</th>
+				@if (User.IsInRole("admin")) {
+					<th>Düzenle</th>
+				}
 			</tr>
 		</thead>
 		<tbody>
@@ -44,9 +81,11 @@
 							<i class="fa-solid fa-circle-info"></i>
 						</a>
 					</td>
-					<td>
-						<i data-id="@teacher.Id" class="fa-solid fa-pen-to-square edit"></i>
-					</td>
+					@if (User.IsInRole("admin")) {
+						<td>
+							<i data-id="@teacher.Id" class="fa-solid fa-pen-to-square edit"></i>
+						</td>
+					}
 				</tr>
 			}
 		</tbody>
@@ -54,5 +93,5 @@
 </section>
 
 @section Scripts {
-	<script src="~/js/editpopup.js"></script>
+	<script src="~/js/teacher.js"></script>
 }

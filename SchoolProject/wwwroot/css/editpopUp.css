@@ -1,0 +1,85 @@
+﻿/*#region PopUp*/
+
+#editformPopUp {
+    z-index: 1000;
+    width: 400px;
+    height: 400px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 30px;
+}
+
+    #editformPopUp > h1 {
+        color: #194568;
+        margin-top: 0px;
+    }
+
+    #editformPopUp > form {
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        justify-content: center;
+        border-radius: 25px;
+        width: 60%;
+        height: 60%;
+    }
+
+        #editformPopUp > form > label {
+            font-weight: bold;
+            text-align: center;
+            margin: 5px 5px;
+        }
+
+        #editformPopUp > form > span {
+            margin: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+            #editformPopUp > form > span > div {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #194568;
+                height: 30px;
+                width: 60px;
+                border: 1px solid #194568;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+            #editformPopUp > form > span #kaydet {
+                color: white;
+                background-color: #194568;
+                border: 1px solid #194568;
+                border-radius: 5px;
+                height: 30px;
+                width: 60px;
+                cursor: pointer;
+            }
+
+                #editformPopUp > form > span #kaydet:hover {
+                    color: black;
+                    background-color: #C8F39C;
+                }
+/*#endregion*/
+#editoverlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}

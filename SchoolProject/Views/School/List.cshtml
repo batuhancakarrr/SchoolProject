@@ -1,39 +1,71 @@
 ﻿@using EntitySchool = School.Data.Entities.School
 @section Styles {
 	<link href="~/css/schoollist.css" rel="stylesheet" />
+	<link href="~/css/addpopup.css" rel="stylesheet" />
+	<link href="~/css/editpopup.css" rel="stylesheet" />
 }
-
+@{
+	var breadcrumbs = new List<PartialRouteModel> {
+		new("Ana Sayfa", "/Main/Index"),
+		new("Okullar","/Schools"),
+	};
+}
 @model List<EntitySchool>
 
-<h1>Okullar</h1>
-<!-- popup -->
-<div id="overlay">
-	<div id="formPopUp">
-		<h1>Okul Düzenle</h1>
-		<form>
-			<input type="hidden" id="schoolId" />
+<!-- Yeni -->
+
+<div id="addoverlay">
+	<div id="addformPopUp">
+		<h1>Okul Ekle</h1>
+		<form asp-controller="Schools" asp-action="Add" method="post">
 			<label>Okul Adı</label>
-			<input type="text" id="schoolName" required />
+			<input type="text" id="addName" name="name" required />
 			<label>Adres</label>
-			<input type="text" id="address" required />
+			<input type="text" id="addAddress" name="address" required />
 			<span>
 				<div onclick="closePopup()">İptal et</div>
-				<button type="button" id="kaydet" >Kaydet</button>
+				<button type="submit" id="ekle">Kaydet</button>
 			</span>
 		</form>
 	</div>
 </div>
 
+<!-- Yeni -->
+<!-- popup -->
+<div id="editoverlay">
+	<div id="editformPopUp">
+		<h1>Okul Düzenle</h1>
+		<form>
+			<input type="hidden" id="editschoolId" />
+			<label>Okul Adı</label>
+			<input type="text" id="editname" required />
+			<label>Okul Adres</label>
+			<input type="text" id="editaddress" required />
+			<span>
+				<div onclick="closePopup()">İptal et</div>
+				<button type="button" id="kaydet">Kaydet</button>
+			</span>
+		</form>
+	</div>
+</div>
+<!-- popup -->
 
 <section>
-	<table>
+	@Html.Partial("_Breadcrumb", breadcrumbs)
+
+	@if (User.IsInRole("admin")) {
+		<button type="button" id="new">Yeni Okul</button>
+	}
+	<table id="table">
 		<thead>
 			<tr>
 				<th>Id</th>
 				<th>Okul İsmi</th>
 				<th>Adres</th>
 				<th>Bilgi</th>
-				<th>Düzenle</th>
+				@if (User.IsInRole("admin")) {
+					<th>Düzenle</th>
+				}
 			</tr>
 		</thead>
 		<tbody>
@@ -47,9 +79,11 @@
 							<i class="fa-solid fa-circle-info"></i>
 						</a>
 					</td>
-					<td>
-						<i data-id="@school.Id" class="fa-solid fa-pen-to-square edit"></i>
-					</td>
+					@if (User.IsInRole("admin")) {
+						<td>
+							<i data-id="@school.Id" class="fa-solid fa-pen-to-square edit"></i>
+						</td>
+					}
 				</tr>
 			}
 		</tbody>
@@ -57,6 +91,6 @@
 </section>
 
 @section Scripts
-	{
+{
 	<script src="~/js/school.js"></script>
 }

@@ -1,45 +1,62 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using School.Data.Context;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Repository.Abstracts;
 using School.Data.Entities;
 using SchoolProject.Models;
 
 namespace SchoolProject.Controllers;
+[Authorize]
 public class ClassController : Controller {
-	SchoolContext context = new();
+	private readonly IClassRepository _classRepository;
+	private readonly IStudentRepository _studentRepository;
+	private readonly IClassTeacherRepository _classTeacherRepository;
+
+	public ClassController(IClassRepository classRepository, IStudentRepository studentRepository, IClassTeacherRepository classTeacherRepository) {
+		_classRepository = classRepository;
+		_studentRepository = studentRepository;
+		_classTeacherRepository = classTeacherRepository;
+	}
 
 	[Route("Classes")]
 	public IActionResult List() {
-		List<Class> classList = context.Classes.Include(x => x.School).ToList();
+		List<Class> classList = _classRepository.ListWithSchool();
 		return View(classList);
 	}
+
 	[Route("Classes/Details/{id}")]
 	public IActionResult Details(int id) {
-		ClassDetailsViewModel model = new();
-		List<Student> students = context.Students.Where(x => x.ClassId == id).ToList();
+		var model = new ClassDetailsViewModel();
+
+		var students = _studentRepository.GetStudentsByClassId(id);
 		model.Students = students;
-		List<ClassTeacher> classTeacher = context.ClassTeachers.Include(x => x.Teacher).Where(x => x.ClassId == id).ToList();
-		model.ClassTeachers = classTeacher;
+
+		var classTeachers = _classTeacherRepository.GetClassTeachersByClassId(id);
+		model.ClassTeachers = classTeachers;
+
 		return View(model);
 	}
 
 	[Route("Classes/Edit/{id}")]
 	public IActionResult Edit(int id) {
-		var classes = context.Classes.FirstOrDefault(x => x.Id == id);
+		var classes = _classRepository.GetById(id);
 		return Json(classes);
 	}
 
-	[HttpPost]
-	[Route("Classes/Update/{id}")]
-	public IActionResult Update(int id, int degree, string name) {
-		var classes = context.Classes.FirstOrDefault(c => c.Id == id);
-
-		classes.Degree = degree;
-		classes.Name = name;
-
-		context.SaveChanges();
-
-		return Ok();
+	[Route("Classes/Add"), HttpPost]
+	public IActionResult Add(Class classes) {
+		_classRepository.Insert(classes);
+		return RedirectToAction(nameof(List));
 	}
 
+
+	[HttpPost]
+	[Route("Classes/Update/{id}")]
+	public IActionResult Update(int id, int Degree, string Name) {
+		var classes = _classRepository.GetById(id);
+		classes.Degree = Degree;
+		classes.Name = Name;
+
+		_classRepository.Update(classes);
+		return RedirectToAction(nameof(List));
+	}
 }

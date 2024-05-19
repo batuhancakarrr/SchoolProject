@@ -1,28 +1,29 @@
-﻿function openPopup(id) {
-	// Seçilen sınıfın özelliklerini almak için AJAX isteği gönder
-	$.ajax({
-		url: '/Classes/Edit/' + id,
-		type: 'GET',
-		success: function (response) {
-			// AJAX isteği başarılı olursa, sınıf özelliklerini popup formunda görüntüle
-			$('#classId').val(response.id);
-			$('#degree').val(response.degree);
-			$('#className').val(response.name);
-			$("#formPopUp").show().css("display", "flex");
-			$('#overlay').show();
-		},
-		error: function (xhr, status, error) {
-			console.error(xhr.responseText);
-		}
+﻿$(function () {
+	$("section > table > tbody > tr > td:last-of-type > i").on("click", function () {
+		$("#editoverlay").fadeIn();
+		const id = $(this).parent().find('.edit').attr("data-id");
+
+		$.ajax({
+			url: '/Classes/Edit/' + id,
+			type: 'GET',
+			success: function (response) {
+				$('#editclassId').val(response.id);
+				$('#editdegree').val(response.degree);
+				$('#editclassName').val(response.name);
+				$('#editoverlay').show();
+			},
+			error: function (error) {
+				console.error(error.responseText);
+			}
+		});
 	});
 
-	// Kaydet butonuna tıklandığında yapılacak işlemler
-	$('#kaydet').click(function () {
-		// Form verilerini al
-		var degree = $('#degree').val();
-		var className = $('#className').val();
+	$('#kaydet').on("click", function () {
 
-		// AJAX isteği göndererek verileri sunucuya gönder
+		var id = $('#editclassId').val();
+		var degree = $('#editdegree').val();
+		var className = $('#editclassName').val();
+
 		$.ajax({
 			url: '/Classes/Update/' + id,
 			type: 'POST',
@@ -36,20 +37,18 @@
 				location.reload();
 			},
 			error: function (error) {
-				// Kaydetme işlemi başarısız olduysa hata mesajını konsolda gösterin
 				console.error("Kaydetme işlemi başarısız oldu: " + error);
 			}
 		});
 	});
-}
+	$("#new").on("click", function () {
+		$("#addoverlay").fadeIn();
+	});
+})
 
 function closePopup() {
-	$("#formPopUp").css("display", "none");
-	$('#overlay').css("display", "none");
+	$('#editoverlay').css("display", "none");
+	$('#addoverlay').css("display", "none");
 }
 
-// Sınıf düzenleme butonuna tıklandığında popup formunu aç
-$('.edit').click(function () {
-	var classId = $(this).data('id'); // Tıklanan düzenleme ikonunun data-id'sini al
-	openPopup(classId); // Popup formunu aç
-});
+

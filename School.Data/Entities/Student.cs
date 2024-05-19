@@ -10,4 +10,9 @@ public class Student : BaseEntity {
 	[ForeignKey("Class")]
 	public int ClassId { get; set; }
 	public Class Class { get; set; }
+	[MaxLength(50), Required]
+	public string Username { get; set; }
+
+	[MaxLength(50), Required]
+	public string Password { get; set; }
 }
