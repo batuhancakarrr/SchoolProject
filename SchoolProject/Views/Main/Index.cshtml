@@ -1,6 +1,51 @@
-﻿
-@{
-    ViewData["Title"] = "Index";
+﻿@{
+	ViewData["Title"] = "Ana Sayfa";
+}
+@section Styles {
+	<link href="~/css/main.css" rel="stylesheet" />
 }
 
-
+<div class="container">
+	<div class="row">
+		<div class="col-md-3">
+			<a href="/Schools" class="card-link">
+				<div class="card school-count">
+					<div class="card-body">
+						<h5 class="card-title">Okul Sayısı</h5>
+						<p class="card-value">@ViewBag.SchoolCount</p>
+					</div>
+				</div>
+			</a>
+		</div>
+		<div class="col-md-3">
+			<a href="/Classes" class="card-link">
+				<div class="card class-count">
+					<div class="card-body">
+						<h5 class="card-title">Sınıf Sayısı</h5>
+						<p class="card-value">@ViewBag.ClassCount</p>
+					</div>
+				</div>
+			</a>
+		</div>
+		<div class="col-md-3">
+			<a href="/Students" class="card-link">
+				<div class="card student-count">
+					<div class="card-body">
+						<h5 class="card-title">Öğrenci Sayısı</h5>
+						<p class="card-value">@ViewBag.StudentCount</p>
+					</div>
+				</div>
+			</a>
+		</div>
+		<div class="col-md-3">
+			<a href="/Teachers" class="card-link">
+				<div class="card teacher-count">
+					<div class="card-body">
+						<h5 class="card-title">Öğretmen Sayısı</h5>
+						<p class="card-value">@ViewBag.TeacherCount</p>
+					</div>
+				</div>
+			</a>
+		</div>
+	</div>
+</div>

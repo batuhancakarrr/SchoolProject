@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Repository.Abstracts;
 using School.Data.Context;
-using School.Data.Entities;
-using EntitySchool = School.Data.Entities.School;
+using School.Data.Entities.Concrete.Schools;
+using EntitySchool = School.Data.Entities.Concrete.Schools.School;
 
 namespace Repository.Concretes;
 public class SchoolRepository : Repository<EntitySchool>, ISchoolRepository {
@@ -18,5 +18,10 @@ public class SchoolRepository : Repository<EntitySchool>, ISchoolRepository {
 			.Where(s => s.Class.SchoolId == schoolId)
 			.ToList();
 	}
-
+	public override List<EntitySchool> List() {
+		return _context.Schools
+			.Include(s => s.District)
+			.ThenInclude(c => c.City)
+			.ToList();
+	}
 }

@@ -1,52 +1,55 @@
-﻿//using Microsoft.AspNetCore.Authentication;
-//using Microsoft.AspNetCore.Authentication.Cookies;
-//using Microsoft.AspNetCore.Mvc;
-//using Microsoft.EntityFrameworkCore;
-//using School.Data.Context;
-//using System.Security.Claims;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
+using School.Dto;
+using School.Service.Result;
+using School.ServiceHelper.Abstracts;
+using System.Security.Claims;
 
-//namespace SchoolProject.Controllers;
-//public class LoginController : Controller {
-//	SchoolContext context = new();
-//	public IActionResult Index() {
-//		return View();
-//	}
-//	[HttpPost]
-//	public async Task<IActionResult> Login(string username, string password, string userType) {
-//		if (userType == "student") {
-//			var student = await context.Students.SingleOrDefaultAsync(s => s.Username == username && s.Password == password);
-//			if (student == null) {
-//				ModelState.AddModelError(string.Empty, "Öğrenci kullanıcı adı veya şifre yanlış");
-//				return View("Index");
-//			}
-//		}
-//		else if (userType == "teacher") {
-//			var teacher = await context.Teachers.SingleOrDefaultAsync(t => t.Username == username && t.Password == password);
-//			if (teacher == null) {
-//				ModelState.AddModelError(string.Empty, "Öğretmen kullanıcı adı veya şifre yanlış");
-//				return View("Index");
-//			}
-//		}
-//		else {
-//			ModelState.AddModelError(string.Empty, "Geçersiz kullanıcı tipi");
-//			return View("Index");
-//		}
+namespace SchoolProject.Controllers;
+public class LoginController : Controller {
+	private readonly IStudentService _studentService;
+	private readonly ITeacherService _teacherService;
+	public LoginController(IStudentService studentService, ITeacherService teacherService) {
+		_studentService = studentService;
+		_teacherService = teacherService;
+	}
+	public IActionResult Index() {
+		return View();
+	}
+	[HttpPost]
+	public async Task<IActionResult> Login(string username, string password, string userType) {
+		if (userType == "student") {
+			Result<StudentDTO> result = await _studentService.Login(username, password);
+			if (!result.Success) {
+				return View("Index");
+			}
+		}
+		else if (userType == "teacher") {
+			Result<TeacherDTO> result = await _teacherService.Login(username, password);
+			if (!result.Success) {
+				return View("Index");
+			}
+		}
+		else {
+			return View("Index");
+		}
 
-//		var claims = new List<Claim> {
-//			new(ClaimTypes.Name, username),
-//			new(ClaimTypes.Role, userType)
-//		};
-//		var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-//		var authProperties = new AuthenticationProperties();
+		List<Claim> claims = new List<Claim> {
+			new(ClaimTypes.Name, username),
+			new(ClaimTypes.Role, userType)
+		};
+		ClaimsIdentity identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+		AuthenticationProperties authProperties = new AuthenticationProperties();
 
-//		await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), authProperties);
+		await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), authProperties);
 
-//		return RedirectToAction("Index", "Main");
-//	}
-//	[HttpPost]
-//	public async Task<IActionResult> Logout() {
-//		await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-//		return RedirectToAction("Index", "Login");
-//	}
-//}
+		return RedirectToAction("Index", "Main");
+	}
+	[HttpPost]
+	public async Task<IActionResult> Logout() {
+		await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+		return RedirectToAction("Index", "Login");
+	}
+}
 

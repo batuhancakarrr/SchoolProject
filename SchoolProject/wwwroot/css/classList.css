@@ -16,6 +16,7 @@
 	margin: 0px 0px 10px 0px;
 	align-self: flex-end;
 	cursor: pointer;
+	transition: .4s;
 }
 
 	#new:hover {

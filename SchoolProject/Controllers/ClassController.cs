@@ -1,62 +1,80 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Repository.Abstracts;
-using School.Data.Entities;
-using SchoolProject.Models;
+using School.Dto;
+using School.Service.Result;
+using School.ServiceHelper.Abstracts;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
-namespace SchoolProject.Controllers;
-[Authorize]
-public class ClassController : Controller {
-	private readonly IClassRepository _classRepository;
-	private readonly IStudentRepository _studentRepository;
-	private readonly IClassTeacherRepository _classTeacherRepository;
+namespace SchoolProject.Controllers {
+	[Authorize]
+	public class ClassController : Controller {
+		private readonly IClassService _classService;
 
-	public ClassController(IClassRepository classRepository, IStudentRepository studentRepository, IClassTeacherRepository classTeacherRepository) {
-		_classRepository = classRepository;
-		_studentRepository = studentRepository;
-		_classTeacherRepository = classTeacherRepository;
-	}
+		public ClassController(IClassService classService) {
+			_classService = classService;
+		}
 
-	[Route("Classes")]
-	public IActionResult List() {
-		List<Class> classList = _classRepository.ListWithSchool();
-		return View(classList);
-	}
+		[Route("Classes")]
+		public IActionResult List() {
+			Result<List<ClassDTO>> result = _classService.ListWithSchool();
+			if (!result.Success) TempData["Failed"] = "BAŞARISIZ.";
+			return View(result.Data);
+		}
 
-	[Route("Classes/Details/{id}")]
-	public IActionResult Details(int id) {
-		var model = new ClassDetailsViewModel();
+		[Route("Classes/Details/{id}")]
+		public IActionResult Details(int id) {
+			Result<ClassDTO> result = _classService.GetById(id, true);
+			if (!result.Success) TempData["Failed"] = "BAŞARISIZ.";
+			return View(result.Data);
+		}
 
-		var students = _studentRepository.GetStudentsByClassId(id);
-		model.Students = students;
+		[Route("Classes/Edit/{id}")]
+		public IActionResult Edit(int id) {
+			Result<ClassDTO> result = _classService.GetById(id);
+			if (!result.Success) TempData["Failed"] = "BAŞARISIZ.";
 
-		var classTeachers = _classTeacherRepository.GetClassTeachersByClassId(id);
-		model.ClassTeachers = classTeachers;
+			JsonSerializerOptions options = new JsonSerializerOptions {
+				ReferenceHandler = ReferenceHandler.Preserve,
+				WriteIndented = true
+			};
 
-		return View(model);
-	}
+			return new JsonResult(result.Data, options);
+		}
 
-	[Route("Classes/Edit/{id}")]
-	public IActionResult Edit(int id) {
-		var classes = _classRepository.GetById(id);
-		return Json(classes);
-	}
+		[Route("Classes/Add"), HttpPost]
+		public IActionResult Add(ClassDTO classes) {
+			Result<bool> result = _classService.Insert(classes);
+			if (!result.Success) TempData["Failed"] = "BAŞARISIZ.";
+			else TempData["Success"] = "Başarılı.";
+			return RedirectToAction(nameof(List));
+		}
 
-	[Route("Classes/Add"), HttpPost]
-	public IActionResult Add(Class classes) {
-		_classRepository.Insert(classes);
-		return RedirectToAction(nameof(List));
-	}
+		[Route("Classes/Update/{id}"), HttpPost]
+		public IActionResult Update(int id, int degree, string name) {
+			Result<ClassDTO> result = _classService.GetById(id);
+			if (!result.Success) TempData["Failed"] = "BAŞARISIZ.";
 
+			ClassDTO classes = result.Data;
+			classes.Degree = degree;
+			classes.Name = name;
 
-	[HttpPost]
-	[Route("Classes/Update/{id}")]
-	public IActionResult Update(int id, int Degree, string Name) {
-		var classes = _classRepository.GetById(id);
-		classes.Degree = Degree;
-		classes.Name = Name;
+			Result<bool> Result = _classService.Update(classes);
+			if (!Result.Success) TempData["Failed"] = "BAŞARISIZ.";
+			else TempData["Success"] = "Başarılı.";
+			return BadRequest();
+		}
 
-		_classRepository.Update(classes);
-		return RedirectToAction(nameof(List));
+		[HttpDelete]
+		[Route("Classes/Delete/{id}")]
+		public IActionResult Delete(int id) {
+			Result<ClassDTO> result = _classService.GetById(id);
+
+			Result<bool> Result = _classService.Delete(result.Data.Id);
+			if (!Result.Success) TempData["Failed"] = "BAŞARISIZ.";
+			else TempData["Success"] = "Başarılı.";
+			return RedirectToAction(nameof(List));
+		}
+
 	}
 }

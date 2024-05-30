@@ -1,4 +1,5 @@
 ﻿@using School.Data.Entities
+@using School.Dto
 
 @section Styles {
 	<link href="~/css/classDetail.css" rel="stylesheet" />
@@ -10,10 +11,10 @@
 		new("Detay"),
 	};
 }
-@model ClassDetailsViewModel
+@model ClassDTO
 
 <section>
-	@Html.Partial("_Breadcrumb", breadcrumbs)
+	<partial name="_Breadcrumb" model="breadcrumbs" />
 	<div>
 		<table>
 			<caption><h2>Sınıfın Öğrencileri</h2></caption>
@@ -24,7 +25,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				@foreach (Student student in Model.Students) {
+				@foreach (StudentDTO student in Model.Students) {
 					<tr>
 						<td>@student.Id</td>
 						<td>@student.Name</td>
@@ -43,7 +44,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				@foreach (ClassTeacher classteacher in Model.ClassTeachers) {
+				@foreach (ClassTeacherDTO classteacher in Model.ClassTeachers) {
 					<tr>
 						<td>@classteacher.TeacherId</td>
 						<td>@classteacher.Teacher.Name</td>

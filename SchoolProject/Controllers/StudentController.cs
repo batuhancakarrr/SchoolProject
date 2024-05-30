@@ -1,55 +1,52 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Repository.Abstracts;
-using School.Data.Entities;
+using School.Dto;
+using School.Service.Result;
+using School.ServiceHelper.Abstracts;
 
 namespace SchoolProject.Controllers {
 	[Authorize]
 	public class StudentController : Controller {
-		private readonly IStudentRepository _studentRepository;
+		private readonly IStudentService _studentService;
 
-		public StudentController(IStudentRepository studentRepository) {
-			_studentRepository = studentRepository;
+		public StudentController(IStudentService studentService) {
+			_studentService = studentService;
 		}
 
 		[Route("Students")]
 		public IActionResult List() {
-			List<Student> studentList = _studentRepository.ListWithClassAndSchool();
-			return View(studentList);
+			Result<List<StudentDTO>> result = _studentService.ListWithClassAndSchool();
+			if (!result.Success) TempData["Failed"] = "BAŞARISIZ.";
+			return View(result.Data);
 		}
 
 		[Route("Students/Details/{id}")]
 		public IActionResult Details(int id) {
-			Student student = _studentRepository.GetByIdWithClassAndSchool(id);
-			return View(student);
+			Result<StudentDTO> result = _studentService.GetByIdWithClassAndSchool(id);
+			if (!result.Success) TempData["Failed"] = "BAŞARISIZ.";
+			return View(result.Data);
 		}
 
 		[Route("Students/Edit/{id}")]
 		public IActionResult Edit(int id) {
-			Student student = _studentRepository.GetById(id);
-			return Json(student);
+			Result<StudentDTO> result = _studentService.GetByIdWithClassAndSchool(id);
+			if (!result.Success) TempData["Failed"] = "BAŞARISIZ.";
+			return Json(result.Data);
 		}
 
 		[Route("Students/Add"), HttpPost]
-		public IActionResult Add(Student student) {
-			var newStudent = new Student {
-				Name = student.Name,
-				ClassId = student.ClassId,
-				Username = student.Name,
-				Password = "123"
-			};
-			_studentRepository.Insert(newStudent);
+		public IActionResult Add(StudentDTO student) {
+			Result<bool> result = _studentService.Add(student);
+			if (!result.Success) TempData["Failed"] = "BAŞARISIZ.";
+			else TempData["Success"] = "Başarılı.";
 			return RedirectToAction(nameof(List));
 		}
 
 		[Route("Students/Update/{id}"), HttpPost]
 		public IActionResult Update(int id, string name, int classId) {
-			Student student = _studentRepository.GetById(id);
-			student.Name = name;
-			student.ClassId = classId;
-
-			_studentRepository.Update(student);
-			return Ok();
+			Result<bool> result = _studentService.Update(id, name, classId);
+			if (!result.Success) TempData["Failed"] = "BAŞARISIZ.";
+			return RedirectToAction(nameof(List));
 		}
 	}
 }

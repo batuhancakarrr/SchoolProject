@@ -3,19 +3,19 @@ using Microsoft.EntityFrameworkCore;
 using Repository.Abstracts;
 using Repository.Concretes;
 using School.Data.Context;
+using School.Repository.Abstracts;
+using School.Repository.Concretes;
+using School.Service.Abstracts;
+using School.Service.Concretes;
+using School.ServiceHelper.Abstracts;
+using School.ServiceHelper.Concretes;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 builder.Services.AddDbContext<SchoolContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("Connection")));
-
-builder.Services.AddScoped<IStudentRepository, StudentRepository>();
-builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
-builder.Services.AddScoped<IClassTeacherRepository, ClassTeacherRepository>();
-builder.Services.AddScoped<ISchoolRepository, SchoolRepository>();
-builder.Services.AddScoped<IClassRepository, ClassRepository>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => {
 	options.Cookie.Name = "School.Auth";
@@ -23,7 +23,26 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 	options.AccessDeniedPath = "/Login/Index";
 });
 
-var app = builder.Build();
+builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
+builder.Services.AddScoped<IClassTeacherRepository, ClassTeacherRepository>();
+builder.Services.AddScoped<ISchoolRepository, SchoolRepository>();
+builder.Services.AddScoped<IClassRepository, ClassRepository>();
+builder.Services.AddScoped<ICityRepository, CityRepository>();
+builder.Services.AddScoped<IDistrictRepository, DistrictRepository>();
+builder.Services.AddScoped<IAdminRepository, AdminRepository>();
+
+
+builder.Services.AddScoped<IClassService, ClassService>();
+builder.Services.AddScoped<ISchoolService, SchoolService>();
+builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<ITeacherService, TeacherService>();
+builder.Services.AddScoped<IDistrictService, DistrictService>();
+builder.Services.AddScoped<ICityService, CityService>();
+builder.Services.AddScoped<IAdminService, AdminService>();
+//builder.Services.AddScoped<SchoolController>();
+
+WebApplication app = builder.Build();
 
 if (!app.Environment.IsDevelopment()) {
 	app.UseExceptionHandler("/Home/Error");

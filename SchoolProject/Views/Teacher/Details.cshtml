@@ -1,4 +1,5 @@
 ﻿@using School.Data.Entities
+@using School.Dto
 
 @section Styles {
 	<link href="~/css/teacherDetail.css" rel="stylesheet" />
@@ -10,10 +11,11 @@
 		new("Detay"),
 	};
 }
-@model List<ClassTeacher>
+@model List<ClassTeacherDTO>
 
 <section>
-	@Html.Partial("_Breadcrumb", breadcrumbs)
+	<partial name="_Breadcrumb" model="breadcrumbs" />
+
 	<div>
 		<table>
 			<caption><h2>Öğretmen Bilgileri</h2></caption>

@@ -1,7 +1,7 @@
 ﻿using School.Data.Entities.Abstract;
 using System.ComponentModel.DataAnnotations;
 
-namespace School.Data.Entities;
+namespace School.Data.Entities.Concrete.Schools;
 public class Admin : BaseEntity {
 	[MaxLength(50), Required]
 	public string Name { get; set; }

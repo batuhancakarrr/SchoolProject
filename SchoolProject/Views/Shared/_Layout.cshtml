@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>@ViewData["Title"] - SchoolProject</title>
 	<link href="~/css/layout.css" rel="stylesheet" />
+	<link href="~/css/error.css" rel="stylesheet" />
 	<script src="~/lib/jquery-3.7.1.min.js"></script>
 	<script src="~/js/layout.js"></script>
 	<link href="https://cdn.datatables.net/2.0.7/css/dataTables.dataTables.css" rel="stylesheet" />
@@ -45,10 +46,18 @@
 		</div>
 	</aside>
 	<main>
+		@if (TempData["Failed"] != null) {
+			<partial name="_Partial_Notification" model="@(false, TempData["Failed"].ToString())" />
+		}
+		else if (TempData["Success"] != null) {
+			<partial name="_Partial_Notification" model="@(true, TempData["Success"].ToString())" />
+		}
+		<div id="JsNotification" class="hide">
+
+		</div>
 		@RenderBody()
 	</main>
-	<footer>
-	</footer>
+	<footer></footer>
+	@await RenderSectionAsync("Scripts", false)
 </body>
-@await RenderSectionAsync("Scripts", required: false)
 </html>

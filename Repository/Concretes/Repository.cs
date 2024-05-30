@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Repository.Abstracts;
 using School.Data.Context;
+using School.Data.Entities.Abstract;
 
 namespace Repository.Concretes {
-	public class Repository<T> : IRepository<T> where T : class {
+	public class Repository<T> : IRepository<T> where T : class, IBaseEntity {
 		private readonly SchoolContext _context;
 		private readonly DbSet<T> _dbSet;
 
@@ -12,25 +13,26 @@ namespace Repository.Concretes {
 			_dbSet = _context.Set<T>();
 		}
 
-		public List<T> List() {
-			return _dbSet.ToList();
+		public virtual List<T> List() {
+			return _dbSet.AsNoTracking().ToList();
 		}
 
-		public T GetById(int id) {
-			return _dbSet.Find(id);
+		public virtual T GetById(int id, bool withTracking = false) {
+			if (withTracking) return _dbSet.Find(id);
+			else return _dbSet.AsNoTracking().FirstOrDefault(x => x.Id == id);
 		}
 
-		public void Insert(T entity) {
+		public virtual void Insert(T entity) {
 			_dbSet.Add(entity);
 			_context.SaveChanges();
 		}
 
-		public void Update(T entity) {
+		public virtual void Update(T entity) {
 			_dbSet.Update(entity);
 			_context.SaveChanges();
 		}
 
-		public void Delete(T entity) {
+		public virtual void Delete(T entity) {
 			_dbSet.Remove(entity);
 			_context.SaveChanges();
 		}

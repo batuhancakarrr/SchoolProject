@@ -1,33 +1,39 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using School.Data.Context;
+using School.Dto;
+using School.Service.Abstracts;
+using School.Service.Result;
 using System.Security.Claims;
 
 namespace SchoolProject.Controllers;
+
 public class AdminController : Controller {
-	private readonly SchoolContext _context;
-	public AdminController(SchoolContext context) {
-		_context = context;
+	private readonly IAdminService _adminService;
+	public AdminController(IAdminService adminService) {
+		_adminService = adminService;
 	}
 	public IActionResult Index() {
 		return View();
 	}
-	public async Task<IActionResult> Admin(string Username, string Password) {
-		var admin = await _context.Admins.SingleOrDefaultAsync(s => s.Username == Username && s.Password == Password);
+	public async Task<IActionResult> Admin(string username, string password) {
+		Result<AdminDTO> result = await _adminService.Login(username, password);
+		if (!result.Success) {
+			return View("Index");
+		}
 
-		var claims = new List<Claim> {
-			new(ClaimTypes.Name, Username),
-			new(ClaimTypes.Role, "admin")
-		};
-		var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-		var authProperties = new AuthenticationProperties();
+		List<Claim> claims = new List<Claim> {
+		new(ClaimTypes.Name, username),
+		new(ClaimTypes.Role, "admin")
+	};
+		ClaimsIdentity identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+		AuthenticationProperties authProperties = new AuthenticationProperties();
 
 		await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), authProperties);
 
 		return RedirectToAction("Index", "Main");
 	}
+
 	[HttpPost]
 	public async Task<IActionResult> Logout() {
 		await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);

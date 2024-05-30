@@ -61,7 +61,7 @@
             #editformPopUp > form > span #kaydet {
                 color: white;
                 background-color: #194568;
-                border: 1px solid #194568;
+                border:none;
                 border-radius: 5px;
                 height: 30px;
                 width: 60px;
@@ -69,8 +69,9 @@
             }
 
                 #editformPopUp > form > span #kaydet:hover {
-                    color: black;
-                    background-color: #C8F39C;
+                    color: white;
+                    background-color: #FF0844;
+                    transition: .4s;
                 }
 /*#endregion*/
 #editoverlay {

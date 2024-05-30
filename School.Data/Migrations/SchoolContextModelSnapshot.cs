@@ -49,6 +49,23 @@ namespace School.Data.Migrations
                     b.ToTable("Admins");
                 });
 
+            modelBuilder.Entity("School.Data.Entities.City", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("name")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cities");
+                });
+
             modelBuilder.Entity("School.Data.Entities.Class", b =>
                 {
                     b.Property<int>("Id")
@@ -77,17 +94,47 @@ namespace School.Data.Migrations
 
             modelBuilder.Entity("School.Data.Entities.ClassTeacher", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<int>("ClassId")
                         .HasColumnType("int");
 
                     b.Property<int>("TeacherId")
                         .HasColumnType("int");
 
+                    b.HasKey("Id");
+
                     b.HasIndex("ClassId");
 
                     b.HasIndex("TeacherId");
 
                     b.ToTable("ClassTeachers");
+                });
+
+            modelBuilder.Entity("School.Data.Entities.District", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("name")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CityId");
+
+                    b.ToTable("Districts");
                 });
 
             modelBuilder.Entity("School.Data.Entities.School", b =>
@@ -98,10 +145,8 @@ namespace School.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(400)
-                        .HasColumnType("nvarchar(400)");
+                    b.Property<int>("DistrictId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -109,6 +154,8 @@ namespace School.Data.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DistrictId");
 
                     b.ToTable("Schools");
                 });
@@ -193,13 +240,13 @@ namespace School.Data.Migrations
             modelBuilder.Entity("School.Data.Entities.ClassTeacher", b =>
                 {
                     b.HasOne("School.Data.Entities.Class", "Class")
-                        .WithMany()
+                        .WithMany("ClassTeachers")
                         .HasForeignKey("ClassId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("School.Data.Entities.Teacher", "Teacher")
-                        .WithMany()
+                        .WithMany("ClassTeachers")
                         .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -209,15 +256,49 @@ namespace School.Data.Migrations
                     b.Navigation("Teacher");
                 });
 
+            modelBuilder.Entity("School.Data.Entities.District", b =>
+                {
+                    b.HasOne("School.Data.Entities.City", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("City");
+                });
+
+            modelBuilder.Entity("School.Data.Entities.School", b =>
+                {
+                    b.HasOne("School.Data.Entities.District", "District")
+                        .WithMany()
+                        .HasForeignKey("DistrictId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("District");
+                });
+
             modelBuilder.Entity("School.Data.Entities.Student", b =>
                 {
                     b.HasOne("School.Data.Entities.Class", "Class")
-                        .WithMany()
+                        .WithMany("Students")
                         .HasForeignKey("ClassId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Class");
+                });
+
+            modelBuilder.Entity("School.Data.Entities.Class", b =>
+                {
+                    b.Navigation("ClassTeachers");
+
+                    b.Navigation("Students");
+                });
+
+            modelBuilder.Entity("School.Data.Entities.Teacher", b =>
+                {
+                    b.Navigation("ClassTeachers");
                 });
 #pragma warning restore 612, 618
         }

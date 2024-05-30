@@ -1,4 +1,5 @@
 ﻿@using School.Data.Entities;
+@using School.Dto
 @section Styles {
 	<link href="~/css/teacherlist.css" rel="stylesheet" />
 	<link href="~/css/addpopup.css" rel="stylesheet" />
@@ -10,7 +11,7 @@
 		new("Öğretmenler")
 	};
 }
-@model List<Teacher>
+@model List<TeacherDTO>
 
 
 <!-- Yeni -->
@@ -55,7 +56,7 @@
 
 
 <section>
-	@Html.Partial("_Breadcrumb", breadcrumbs)
+	<partial name="_Breadcrumb" model="breadcrumbs" />
 
 	@if (User.IsInRole("admin")) {
 		<button type="button" id="new">Yeni Öğretmen</button>
@@ -65,14 +66,17 @@
 			<tr>
 				<th>Öğretmen İsmi</th>
 				<th>Branş</th>
-				<th>Detay</th>
+				<th class="bilgi" style="width:5%">Bilgi</th>
 				@if (User.IsInRole("admin")) {
-					<th>Düzenle</th>
+					<th class="duzenle" style="width:5%">Düzenle</th>
+				}
+				@if (User.IsInRole("admin")) {
+					<th class="sil" style="width:5%">Sil</th>
 				}
 			</tr>
 		</thead>
 		<tbody>
-			@foreach (Teacher teacher in Model) {
+			@foreach (TeacherDTO teacher in Model) {
 				<tr>
 					<td>@teacher.Name</td>
 					<td>@teacher.Branch</td>
@@ -85,7 +89,11 @@
 						<td>
 							<i data-id="@teacher.Id" class="fa-solid fa-pen-to-square edit"></i>
 						</td>
+						<td>
+							<i data-id="@teacher.Id" class="fa-solid fa-trash delete"></i>
+						</td>
 					}
+
 				</tr>
 			}
 		</tbody>

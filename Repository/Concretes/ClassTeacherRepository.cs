@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Repository.Abstracts;
 using School.Data.Context;
-using School.Data.Entities;
+using School.Data.Entities.Concrete.Schools;
 
 namespace Repository.Concretes;
 public class ClassTeacherRepository : Repository<ClassTeacher>, IClassTeacherRepository {

@@ -1,4 +1,5 @@
 ﻿@using School.Data.Entities;
+@using School.Dto
 
 @section Styles {
 	<link href="~/css/studentlist.css" rel="stylesheet" />
@@ -11,7 +12,7 @@
 		new("Öğrenciler"),
 	};
 }
-@model List<Student>
+@model List<StudentDTO>
 
 <!-- Yeni -->
 
@@ -41,7 +42,7 @@
 			<label>Öğrenci Adı</label>
 			<input type="text" id="editname" required />
 			<label>Öğrenci Sınıfı</label>
-			<input type="text" id="editclassId" required />
+			<input type="text" id="editclassId" required  />
 			<span>
 				<div onclick="closePopup()">İptal et</div>
 				<button type="button" id="kaydet">Kaydet</button>
@@ -52,7 +53,9 @@
 <!-- düzenle -->
 
 <section>
-	@Html.Partial("_Breadcrumb", breadcrumbs)
+@* 	@Html.Partial("_Breadcrumb", breadcrumbs)
+ *@	
+	<partial name="_Breadcrumb" model="breadcrumbs" />
 
 	@if (User.IsInRole("admin")) {
 		<button type="button" id="new">Yeni Öğrenci</button>
@@ -63,14 +66,17 @@
 				<th>Öğrenci İsmi</th>
 				<th>Sınıfı</th>
 				<th>Okulu</th>
-				<th class="bilgi">Bilgi</th>
+				<th class="bilgi" style="width:5%">Bilgi</th>
 				@if (User.IsInRole("admin")) {
-					<th class="duzenle">Düzenle</th>
+					<th class="duzenle" style="width:5%">Düzenle</th>
+				}
+				@if (User.IsInRole("admin")) {
+					<th class="sil" style="width:5%">Sil</th>
 				}
 			</tr>
 		</thead>
 		<tbody>
-			@foreach (Student student in Model) {
+			@foreach (StudentDTO student in Model) {
 				<tr>
 					<td>@student.Name</td>
 					<td>@(student.Class.Degree)-@(student.Class.Name)</td>
@@ -83,6 +89,9 @@
 					@if (User.IsInRole("admin")) {
 						<td>
 							<i data-id="@student.Id" class="fa-solid fa-pen-to-square edit"></i>
+						</td>
+						<td>
+							<i data-id="@student.Id" class="fa-solid fa-trash delete"></i>
 						</td>
 					}
 				</tr>

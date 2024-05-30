@@ -1,7 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using School.Data.Entities.Abstract;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace School.Data.Entities;
-public class ClassTeacher {
+namespace School.Data.Entities.Concrete.Schools;
+public class ClassTeacher : BaseEntity {
 
 	[ForeignKey("Class")]
 	public int ClassId { get; set; }
