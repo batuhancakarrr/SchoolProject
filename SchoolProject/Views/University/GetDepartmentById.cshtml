@@ -1,0 +1,13 @@
+﻿@using School.Data.Entities.Concrete.University
+@model IEnumerable<University>
+
+@section Styles {
+	<link href="~/css/universityDetail.css" rel="stylesheet" />
+}
+
+<h2>Bölümün Olduğu Üniversiteler</h2>
+<section>
+	@foreach (var university in Model) {
+		<div>@university.Name</div>
+	}
+</section>

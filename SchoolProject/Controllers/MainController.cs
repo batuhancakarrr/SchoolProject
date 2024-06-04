@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using School.Service.Abstracts;
 using School.ServiceHelper.Abstracts;
 
 namespace SchoolProject.Controllers;

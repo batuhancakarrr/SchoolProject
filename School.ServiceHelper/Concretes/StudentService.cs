@@ -2,9 +2,9 @@
 using School.Data.Entities.Concrete.Schools;
 using School.Dto;
 using School.Service;
+using School.Service.Abstracts;
 using School.Service.Concretes;
 using School.Service.Result;
-using School.ServiceHelper.Abstracts;
 
 namespace School.ServiceHelper.Concretes;
 

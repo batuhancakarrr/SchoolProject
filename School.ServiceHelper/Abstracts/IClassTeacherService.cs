@@ -5,6 +5,6 @@ using School.Service.Result;
 
 namespace School.ServiceHelper.Abstracts;
 public interface IClassTeacherService : IService<ClassTeacher, ClassTeacherDTO> {
-	Result<List<ClassTeacher>> GetClassTeachersByClassId(int classId);
+    Result<ClassTeacherDTO> AddTeacherToClass(int classId, int teacherId);
 }
 

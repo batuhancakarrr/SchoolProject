@@ -1,0 +1,22 @@
+﻿section {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+	width: 100%;
+	height: auto;
+	gap: 10px;
+	margin-top: 20px;
+}
+
+	section > div {
+		background-color: #194568;
+		border-radius: 5px;
+		padding: 8px;
+		height: 40px;
+		color: white;
+	}
+
+		section > div:hover {
+			background-color: #2c5b8a;
+			transition: .4s;
+			cursor: pointer;
+		}

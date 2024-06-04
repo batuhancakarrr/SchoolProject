@@ -1,5 +1,5 @@
 ﻿$(function () {
-	$("tbody").on("click", "tr td:last-child .edit", function () {
+	$("section > table > tbody > tr > td:last-of-type").prev().find('i').on("click", function () {
 		$("#editoverlay").fadeIn();
 		const id = $(this).parent().find('.edit').attr("data-id");
 
@@ -28,8 +28,8 @@
 			url: '/Students/Update/' + id,
 			type: 'POST',
 			data: {
-				name: name,
-				classId: classId
+				Name: name,
+				ClassId: classId
 			},
 			success: function () {
 				console.log("Veriler başarıyla kaydedildi.");

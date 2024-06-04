@@ -9,18 +9,18 @@ using School.Service.Abstracts;
 using School.Service.Concretes;
 using School.ServiceHelper.Abstracts;
 using School.ServiceHelper.Concretes;
+using System.Text.Json.Serialization;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
-
+builder.Services.AddControllersWithViews().AddJsonOptions(options => { options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles; }).AddRazorRuntimeCompilation();
 builder.Services.AddDbContext<SchoolContext>(options =>
-	options.UseSqlServer(builder.Configuration.GetConnectionString("Connection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Connection")));
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => {
-	options.Cookie.Name = "School.Auth";
-	options.LoginPath = "/Login/Index";
-	options.AccessDeniedPath = "/Login/Index";
+    options.Cookie.Name = "School.Auth";
+    options.LoginPath = "/Login/Index";
+    options.AccessDeniedPath = "/Login/Index";
 });
 
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
@@ -35,6 +35,7 @@ builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 
 builder.Services.AddScoped<IClassService, ClassService>();
 builder.Services.AddScoped<ISchoolService, SchoolService>();
+builder.Services.AddScoped<IClassTeacherService, ClassTeacherService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<ITeacherService, TeacherService>();
 builder.Services.AddScoped<IDistrictService, DistrictService>();
@@ -45,8 +46,8 @@ builder.Services.AddScoped<IAdminService, AdminService>();
 WebApplication app = builder.Build();
 
 if (!app.Environment.IsDevelopment()) {
-	app.UseExceptionHandler("/Home/Error");
-	app.UseHsts();
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
 }
 
 app.UseHttpsRedirection();
@@ -58,7 +59,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
-	name: "default",
-	pattern: "{controller=Login}/{action=Index}");
+    name: "default",
+    pattern: "{controller=Login}/{action=Index}");
 
 app.Run();

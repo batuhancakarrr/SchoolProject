@@ -1,0 +1,54 @@
+﻿section {
+	display:flex;
+	justify-content:center;
+	align-items: center;
+	flex-direction:column;
+	height: 100%;
+}
+section > div {
+	display: flex;
+	justify-content: flex-start;
+	flex-direction: column;
+	align-items:center;
+	margin-top: 70px;
+	width: 100%;
+	height: 100%;
+	gap: 30px;
+}
+.card {
+	display: flex;
+	width: 35%;
+	padding: 15px;
+	height: 200px;
+	background-color: #EDEDED;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+	border-top: 2px solid #E3E3E3;
+	border-bottom: 1px solid #E3E3E3;
+	border-radius: 5px;
+}
+form {
+	display: flex;
+	flex-direction: column;
+	justify-content:center;
+	height: 100%;
+	width: 100%;
+}
+#university {
+	width: 100%;
+	height: 20%;
+	border: 1px solid #CCCCCC;
+	border-radius: 5px;
+	font-size: 15px;
+}
+#department {
+	width: 100%;
+	height: 20%;
+	border: 1px solid #CCCCCC;
+	border-radius: 5px;
+	font-size: 15px;
+}
+.card > option {
+	font-size: 20px;
+}

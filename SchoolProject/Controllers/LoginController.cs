@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using School.Dto;
+using School.Service.Abstracts;
 using School.Service.Result;
 using School.ServiceHelper.Abstracts;
 using System.Security.Claims;
@@ -35,12 +36,12 @@ public class LoginController : Controller {
 			return View("Index");
 		}
 
-		List<Claim> claims = new List<Claim> {
+		List<Claim> claims = [
 			new(ClaimTypes.Name, username),
 			new(ClaimTypes.Role, userType)
-		};
-		ClaimsIdentity identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-		AuthenticationProperties authProperties = new AuthenticationProperties();
+		];
+		ClaimsIdentity identity = new(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+		AuthenticationProperties authProperties = new();
 
 		await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), authProperties);
 

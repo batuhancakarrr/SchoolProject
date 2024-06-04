@@ -1,0 +1,37 @@
+﻿@using School.Data.Entities.Concrete.University
+@section Styles {
+	<link href="~/css/university.css" rel="stylesheet" />
+}
+@{
+	var breadcrumbs = new List<PartialRouteModel> {
+		new("Ana Sayfa", "/Main/Index"),
+		new("Tercih Kılavuzu"),
+	};
+}
+@model IEnumerable<University>
+
+<section>
+	<partial name="_Breadcrumb" model="breadcrumbs" />
+	<div>
+		<div class="card">
+			<form id="universityForm" asp-controller="University" asp-action="GetUniversityById" method="get">
+				<label for="university">Üniversiteler:</label>
+				<select id="university" name="universityId" required>
+					<option value="">Üniversite Seçin</option>
+				</select>
+			</form>
+		</div>
+		<div class="card">
+			<form id="departmentForm" asp-controller="University" asp-action="GetDepartmentById" method="get">
+				<label for="department">Bölümler:</label>
+				<select id="department" name="departmentId" required>
+					<option value="">Bölüm Seçin</option>
+				</select>
+			</form>
+		</div>
+	</div>
+</section>
+@section Scripts
+{
+	<script src="~/js/university.js"></script>
+} 

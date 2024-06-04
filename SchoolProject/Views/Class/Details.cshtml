@@ -2,57 +2,81 @@
 @using School.Dto
 
 @section Styles {
-	<link href="~/css/classDetail.css" rel="stylesheet" />
+    <link href="~/css/classDetail.css" rel="stylesheet" />
 }
 @{
-	var breadcrumbs = new List<PartialRouteModel> {
-		new("Ana Sayfa", "/Main/Index"),
-		new("Sınıflar","/Classes"),
-		new("Detay"),
-	};
+    var breadcrumbs = new List<PartialRouteModel> {
+        new("Ana Sayfa", "/Main/Index"),
+        new("Sınıflar","/Classes"),
+        new("Detay"),
+    };
 }
 @model ClassDTO
 
 <section>
-	<partial name="_Breadcrumb" model="breadcrumbs" />
-	<div>
-		<table>
-			<caption><h2>Sınıfın Öğrencileri</h2></caption>
-			<thead>
-				<tr>
-					<th>Öğrenci ID</th>
-					<th>Adı</th>
-				</tr>
-			</thead>
-			<tbody>
-				@foreach (StudentDTO student in Model.Students) {
-					<tr>
-						<td>@student.Id</td>
-						<td>@student.Name</td>
-					</tr>
-				}
-			</tbody>
-		</table>
+    <partial name="_Breadcrumb" model="breadcrumbs" />
+    <div>
+        <table>
+            <caption><h2>Sınıfın Öğrencileri</h2></caption>
+            <thead>
+                <tr>
+                    <th>Öğrenci ID</th>
+                    <th>Adı</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (StudentDTO student in Model.Students) {
+                    <tr>
+                        <td>@student.Id</td>
+                        <td>@student.Name</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
 
-		<table>
-			<caption><h2>Sınıfın Eğitmenleri</h2></caption>
-			<thead>
-				<tr>
-					<th>Öğretmen ID</th>
-					<th>Adı</th>
-					<th>Branşı</th>
-				</tr>
-			</thead>
-			<tbody>
-				@foreach (ClassTeacherDTO classteacher in Model.ClassTeachers) {
-					<tr>
-						<td>@classteacher.TeacherId</td>
-						<td>@classteacher.Teacher.Name</td>
-						<td>@classteacher.Teacher.Branch</td>
-					</tr>
-				}
-			</tbody>
-		</table>
-	</div>
+        <table>
+            <caption>
+                <h2>Sınıfın Eğitmenleri</h2>
+                <button type="button" class="addTeacherbtn" id="addTeacherButton">Eğitmen Ekle</button>
+                <input type="hidden" id="classId" value="@Model.Id" />
+            </caption>
+            <thead>
+                <tr>
+                    <th>Öğretmen ID</th>
+                    <th>Adı</th>
+                    <th>Branşı</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (ClassTeacherDTO classteacher in Model.ClassTeachers) {
+                    <tr>
+                        <td>@classteacher.TeacherId</td>
+                        <td>@classteacher.Teacher.Name</td>
+                        <td>@classteacher.Teacher.Branch</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div id="addTeacherOverlay" class="overlay">
+        <div class="popup">
+            <h2>Eğitmen Ekle</h2>
+            <form id="addTeacherForm">
+                <div class="form-group">
+                    <label for="js-example-basic-multiple">Öğretmen Seçin</label>
+                    <select class="js-example-basic-multiple" name="states[]" multiple="multiple">
+                    </select>
+                </div>
+                <span>
+                    <button class="addTeacherbtn" type="submit">Ekle</button>
+                <a id="close" onclick="closePopup()">İptal et</a>
+                </span>
+            </form>
+        </div>
+    </div>
 </section>
 
+@section Scripts {
+    <script src="~/js/classDetail.js"></script>
+}

@@ -1,4 +1,9 @@
-﻿section {
+﻿body {
+	background: url('../images/bg-login.jpg') no-repeat fixed center;
+	background-size: cover;
+	font-family: Calibri;
+}
+section {
 	z-index: 1000;
 	width: 400px;
 	height: 400px;

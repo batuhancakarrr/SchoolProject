@@ -1,11 +1,31 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using School.Data.Context;
+using School.Data.Entities.Concrete.University;
 
 namespace YokAtlas.API.Controllers;
-[Route("[controller]/[action]")]
+[Route("api/[controller]")]
 [ApiController]
-public class UniversityController : ControllerBase {
+public class UniversitiesController : ControllerBase {
+	private readonly UniversityDbContext _context;
+
+	public UniversitiesController(UniversityDbContext context) {
+		_context = context;
+	}
+
 	[HttpGet]
-	public IActionResult Get() {
-		return Ok(1);
+	public async Task<ActionResult<IEnumerable<University>>> GetUniversities() {
+		return await _context.Universities.ToListAsync();
+	}
+
+	[HttpGet("{id}")]
+	public async Task<ActionResult<University>> GetUniversity(int id) {
+		University university = await _context.Universities.FindAsync(id);
+
+		if (university == null) {
+			return NotFound();
+		}
+
+		return university;
 	}
 }

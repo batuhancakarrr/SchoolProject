@@ -157,6 +157,7 @@ footer {
 
 #table_wrapper th, #table_wrapper td {
 	text-align: left;
+	box-shadow: none;
 }
 
 #table_wrapper .top {
