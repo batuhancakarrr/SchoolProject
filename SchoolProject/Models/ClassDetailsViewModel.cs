@@ -1,7 +1,8 @@
-﻿using School.Data.Entities.Concrete.Schools;
+﻿using School.Dto;
 namespace SchoolProject.Models;
 
 public class ClassDetailsViewModel {
-	public List<Student> Students { get; set; }
-	public List<ClassTeacher> ClassTeachers { get; set; }
+    public int ClassId { get; set; }
+    public ClassDTO Class { get; set; }
+    public List<TeacherDTO> Teachers { get; set; }
 }

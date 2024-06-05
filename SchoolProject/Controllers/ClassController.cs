@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using School.Dto;
 using School.Service.Result;
 using School.ServiceHelper.Abstracts;
+using SchoolProject.Models;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -11,10 +12,12 @@ namespace SchoolProject.Controllers;
 public class ClassController : Controller {
     private readonly IClassService _classService;
     private readonly IClassTeacherService _classTeacherService;
+    private readonly ITeacherService _teacherService;
 
-    public ClassController(IClassService classService, IClassTeacherService classTeacherService) {
+    public ClassController(IClassService classService, IClassTeacherService classTeacherService, ITeacherService teacherService) {
         _classService = classService;
         _classTeacherService = classTeacherService;
+        _teacherService = teacherService;
     }
 
     [Route("Classes")]
@@ -26,9 +29,27 @@ public class ClassController : Controller {
 
     [Route("Classes/Details/{id}")]
     public IActionResult Details(int id) {
-        Result<ClassDTO> result = _classService.GetById(id, true);
-        if (!result.Success) TempData["Failed"] = "BAŞARISIZ.";
-        return View(result.Data);
+        ClassDetailsViewModel model = new();
+
+        Result<List<TeacherDTO>> teacherResult = _teacherService.List();
+        if (!teacherResult.Success) {
+            TempData["Failed"] = "BAŞARISIZ.";
+            return View(model);
+        }
+
+        Result<ClassDTO> classResult = _classService.GetById(id, true);
+        if (!classResult.Success) {
+            TempData["Failed"] = "BAŞARISIZ.";
+            return View(model);
+        }
+
+        List<int> classTeachers = classResult.Data.ClassTeachers.Select(ct => ct.TeacherId).ToList();
+        List<TeacherDTO> availableTeachers = teacherResult.Data.Where(t => !classTeachers.Contains(t.Id)).ToList();
+
+        model.Teachers = availableTeachers;
+        model.Class = classResult.Data;
+
+        return View(model);
     }
 
     [Route("Classes/Edit/{id}")]
@@ -88,10 +109,11 @@ public class ClassController : Controller {
         return RedirectToAction(nameof(List));
     }
     [Route("Classes/AddTeacherToClass")]
-    public IActionResult AddTeacherToClass(int classId, int teacherId) {
-        Result<ClassTeacherDTO> result = _classTeacherService.AddTeacherToClass(classId, teacherId);
+    [HttpPost]
+    public IActionResult AddTeacherToClass(int classId, int[] States) {
+        Result<List<ClassTeacherDTO>> result = _classTeacherService.AddTeacherToClass(classId, States);
         if (!result.Success) TempData["Failed"] = "BAŞARISIZ.";
-        return RedirectToAction(nameof(List));
+        return RedirectToAction("Details", new { id = classId });
     }
 }
 

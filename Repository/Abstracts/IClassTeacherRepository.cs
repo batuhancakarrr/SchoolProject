@@ -3,6 +3,7 @@
 namespace Repository.Abstracts;
 public interface IClassTeacherRepository : IRepository<ClassTeacher> {
 
-    ClassTeacher AddTeacherToClass(int classId, int teacherId);
+    List<ClassTeacher> AddTeacherToClass(int classId, int[] teacherIds);
+    List<ClassTeacher> GetAvailableTeachers(int classId);
 
 }

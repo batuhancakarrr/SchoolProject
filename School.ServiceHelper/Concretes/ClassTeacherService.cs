@@ -11,11 +11,11 @@ public class ClassTeacherService : Service<ClassTeacher, ClassTeacherDTO>, IClas
         _classTeacherRepository = repository;
     }
 
-    public Result<ClassTeacherDTO> AddTeacherToClass(int classId, int teacherId) {
-        Result<ClassTeacherDTO> result = new();
+    public Result<List<ClassTeacherDTO>> AddTeacherToClass(int classId, int[] teacherIds) {
+        Result<List<ClassTeacherDTO>> result = new();
         try {
-            ClassTeacher teacher = _classTeacherRepository.AddTeacherToClass(classId, teacherId);
-            result.Data = Mapping.Mapper.Map<ClassTeacherDTO>(teacher);
+            List<ClassTeacher> teacher = _classTeacherRepository.AddTeacherToClass(classId, teacherIds);
+            result.Data = Mapping.Mapper.Map<List<ClassTeacherDTO>>(teacher);
         }
         catch (Exception ex) {
             result.Success = false;
@@ -23,4 +23,17 @@ public class ClassTeacherService : Service<ClassTeacher, ClassTeacherDTO>, IClas
         }
         return result;
     }
+    public Result<List<ClassTeacherDTO>> GetAvailableTeachers(int classId) {
+        Result<List<ClassTeacherDTO>> result = new();
+        try {
+            List<ClassTeacher> teacher = _classTeacherRepository.GetAvailableTeachers(classId);
+            result.Data = Mapping.Mapper.Map<List<ClassTeacherDTO>>(teacher);
+        }
+        catch (Exception ex) {
+            result.Success = false;
+            result.ErrorMessage = ex.Message;
+        }
+        return result;
+    }
+
 }

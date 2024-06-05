@@ -19,12 +19,6 @@ public class TeacherController : Controller {
         if (!result.Success) TempData["Failed"] = "BAŞARISIZ.";
         return View(result.Data);
     }
-    [Route("Teachers/GetTeachers")]
-    public IActionResult GetTeachers() {
-        Result<List<TeacherDTO>> result = _teacherService.List();
-        if (!result.Success) TempData["Failed"] = "BAŞARISIZ.";
-        return Json(result.Data);
-    }
 
     [Route("Teachers/Details/{id}")]
     public IActionResult Details(int id) {

@@ -1,4 +1,5 @@
-﻿using Repository.Abstracts;
+﻿using Microsoft.EntityFrameworkCore;
+using Repository.Abstracts;
 using School.Data.Context;
 using School.Data.Entities.Concrete.Schools;
 
@@ -8,15 +9,23 @@ public class ClassTeacherRepository : Repository<ClassTeacher>, IClassTeacherRep
     public ClassTeacherRepository(SchoolContext context) : base(context) {
         _context = context;
     }
-    public ClassTeacher AddTeacherToClass(int classId, int teacherId) {
-        ClassTeacher classTeacher = new() {
-            ClassId = classId,
-            TeacherId = teacherId
-        };
-
-        _context.ClassTeachers.Add(classTeacher);
+    public List<ClassTeacher> AddTeacherToClass(int classId, int[] teacherIds) {
+        List<ClassTeacher> classTeachers = [];
+        foreach (int teacherId in teacherIds) {
+            ClassTeacher classTeacher = new() {
+                ClassId = classId,
+                TeacherId = teacherId
+            };
+            classTeachers.Add(classTeacher);
+        }
+        _context.ClassTeachers.AddRange(classTeachers);
         _context.SaveChanges();
-
-        return classTeacher;
+        return classTeachers;
+    }
+    public List<ClassTeacher> GetAvailableTeachers(int classId) {
+        return _context.ClassTeachers
+            .Where(c => c.ClassId == classId)
+            .Include(ct => ct.Teacher)
+            .ToList();
     }
 }

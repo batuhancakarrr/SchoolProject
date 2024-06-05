@@ -11,7 +11,7 @@
         new("Detay"),
     };
 }
-@model ClassDTO
+@model ClassDetailsViewModel
 
 <section>
     <partial name="_Breadcrumb" model="breadcrumbs" />
@@ -25,7 +25,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (StudentDTO student in Model.Students) {
+                @foreach (StudentDTO student in Model.Class.Students) {
                     <tr>
                         <td>@student.Id</td>
                         <td>@student.Name</td>
@@ -38,7 +38,7 @@
             <caption>
                 <h2>Sınıfın Eğitmenleri</h2>
                 <button type="button" class="addTeacherbtn" id="addTeacherButton">Eğitmen Ekle</button>
-                <input type="hidden" id="classId" value="@Model.Id" />
+                <input type="hidden" id="classId" value="@Model.Class.Id" />
             </caption>
             <thead>
                 <tr>
@@ -48,7 +48,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (ClassTeacherDTO classteacher in Model.ClassTeachers) {
+                @foreach (ClassTeacherDTO classteacher in Model.Class.ClassTeachers) {
                     <tr>
                         <td>@classteacher.TeacherId</td>
                         <td>@classteacher.Teacher.Name</td>
@@ -62,11 +62,15 @@
     <div id="addTeacherOverlay" class="overlay">
         <div class="popup">
             <h2>Eğitmen Ekle</h2>
-            <form id="addTeacherForm">
+            <form asp-controller="Class" asp-action="AddTeacherToClass" id="addTeacherForm">
                 <div class="form-group">
-                    <label for="js-example-basic-multiple">Öğretmen Seçin</label>
-                    <select class="js-example-basic-multiple" name="states[]" multiple="multiple">
-                    </select>
+                    <input type="hidden" name="ClassId" value="@Model.Class.Id" />
+                        <label for="js-example-basic-multiple">Öğretmen Seçin</label>
+                    <select class="js-example-basic-multiple" name="States" multiple="multiple">
+                            @foreach (var teacher in Model.Teachers) {
+                                <option value="@teacher.Id">@(teacher.Name) - @(teacher.Branch)</option>
+                            }
+                        </select>
                 </div>
                 <span>
                     <button class="addTeacherbtn" type="submit">Ekle</button>
