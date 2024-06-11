@@ -9,19 +9,25 @@ using School.Service.Abstracts;
 using School.Service.Concretes;
 using School.ServiceHelper.Abstracts;
 using School.ServiceHelper.Concretes;
+using SchoolProject.Configuration;
 using System.Text.Json.Serialization;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews().AddJsonOptions(options => { options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles; }).AddRazorRuntimeCompilation();
 builder.Services.AddDbContext<SchoolContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("Connection")));
+	options.UseSqlServer(builder.Configuration.GetConnectionString("Connection")));
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => {
-    options.Cookie.Name = "School.Auth";
-    options.LoginPath = "/Login/Index";
-    options.AccessDeniedPath = "/Login/Index";
+	options.Cookie.Name = "School.Auth";
+	options.LoginPath = "/Login/Index";
+	options.AccessDeniedPath = "/Login/Index";
 });
+
+
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<HttpClientHelper>();
 
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
@@ -41,13 +47,12 @@ builder.Services.AddScoped<ITeacherService, TeacherService>();
 builder.Services.AddScoped<IDistrictService, DistrictService>();
 builder.Services.AddScoped<ICityService, CityService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
-//builder.Services.AddScoped<SchoolController>();
 
 WebApplication app = builder.Build();
 
 if (!app.Environment.IsDevelopment()) {
-    app.UseExceptionHandler("/Home/Error");
-    app.UseHsts();
+	app.UseExceptionHandler("/Home/Error");
+	app.UseHsts();
 }
 
 app.UseHttpsRedirection();
@@ -59,7 +64,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Login}/{action=Index}");
+	name: "default",
+	pattern: "{controller=Login}/{action=Index}");
 
 app.Run();

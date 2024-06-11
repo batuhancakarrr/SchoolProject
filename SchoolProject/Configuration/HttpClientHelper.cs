@@ -1,39 +1,53 @@
 ﻿using Newtonsoft.Json;
-using School.Data.Entities.Concrete.University;
 using School.Service.Result;
+using SchoolProject.Models;
+using System.Text;
 
 namespace SchoolProject.Configuration;
-
-
-public static class HttpClientHelper {
-	static readonly HttpClient HttpClient = new() {
-		BaseAddress = new("https://localhost:44359/"),
-		DefaultRequestHeaders = {
-			{ "Accept", "*/*" }
+public class HttpClientHelper {
+	private readonly IHttpContextAccessor _httpContextAccessor;
+	private readonly HttpClient HttpClient;
+	public HttpClientHelper(IHttpContextAccessor httpContextAccessor) {
+		_httpContextAccessor = httpContextAccessor;
+		HttpClient = new() {
+			BaseAddress = new("https://localhost:44359/"),
+			DefaultRequestHeaders = {
+				{ "Accept", "*/*" },
+			}
+		};
+		if (_httpContextAccessor.HttpContext.User.Claims.Any(x => x.Type == "Token")) {
+			HttpClient.DefaultRequestHeaders.Add("Authorization", _httpContextAccessor.HttpContext.User.Claims.First(x => x.Type == "Token").Value);
 		}
-	};
-	public static async Task<Result<IEnumerable<University>>> GetUniversities() {
-		return await GetUniversities<IEnumerable<University>>("/api/Universities");
 	}
-	public static async Task<Result<IEnumerable<Department>>> GetDepartments() {
-		return await GetDepartments<IEnumerable<Department>>("/api/Departments");
+	public async Task<Result<T>> GetUniversities<T>() {
+		return await GetMethod<T>("/api/Universities");
 	}
-	public static async Task<Result<IEnumerable<Department>>> GetDepartmentsByUniversityId(int universityId) {
+	public async Task<Result<T>> GetDepartments<T>() {
+		return await GetMethod<T>("/api/Departments");
+	}
+	public async Task<Result<T>> GetDepartmentsByUniversityId<T>(int universityId) {
 		string url = $"/api/UniversityDepartments/universities/{universityId}";
-		return await GetDepartmentsByUniversityId<Department>(url);
+		return await GetMethod<T>(url);
 	}
-	public static async Task<Result<IEnumerable<University>>> GetUniversitiesByDepartmentId(int departmentId) {
+	public async Task<Result<T>> GetUniversitiesByDepartmentId<T>(int departmentId) {
 		string url = $"/api/UniversityDepartments/departments/{departmentId}";
-		return await GetUniversitiesByDepartmentId<University>(url);
+		return await GetMethod<T>(url);
+	}
+	public async Task<Result<TokenModel>> Login(string username, string password) {
+		object loginModel = new {
+			username = username,
+			password = password
+		};
+		return await PostMethod<TokenModel>("/api/Auth/Login", loginModel);
 	}
 
-	private static async Task<Result<IEnumerable<University>>> GetUniversities<T>(string url) {
-		Result<IEnumerable<University>> result = new();
+	private async Task<Result<T>> GetMethod<T>(string url) {
+		Result<T> result = new();
 		try {
 			using HttpResponseMessage responseMessage = await HttpClient.GetAsync(url);
 			string responseMessageContent = await responseMessage.Content.ReadAsStringAsync();
 			if (responseMessage.IsSuccessStatusCode) {
-				result.Data = JsonConvert.DeserializeObject<List<University>>(responseMessageContent);
+				result.Data = JsonConvert.DeserializeObject<T>(responseMessageContent);
 			}
 			else {
 				result.ErrorMessage = "İstek sırasında hata oluştu";
@@ -46,51 +60,16 @@ public static class HttpClientHelper {
 		}
 		return result;
 	}
-	private static async Task<Result<IEnumerable<Department>>> GetDepartments<T>(string url) {
-		Result<IEnumerable<Department>> result = new();
+	private async Task<Result<T>> PostMethod<T>(string url, object model) {
+		Result<T> result = new();
 		try {
-			using HttpResponseMessage responseMessage = await HttpClient.GetAsync(url);
+			string json = JsonConvert.SerializeObject(model);
+			HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+			using HttpResponseMessage responseMessage = await HttpClient.PostAsync(url, content);
 			string responseMessageContent = await responseMessage.Content.ReadAsStringAsync();
 			if (responseMessage.IsSuccessStatusCode) {
-				result.Data = JsonConvert.DeserializeObject<List<Department>>(responseMessageContent);
-			}
-			else {
-				result.ErrorMessage = "İstek sırasında hata oluştu";
-				result.Success = false;
-			}
-		}
-		catch (Exception ex) {
-			result.Success = false;
-			result.ErrorMessage = ex.Message;
-		}
-		return result;
-	}
-	private static async Task<Result<IEnumerable<Department>>> GetDepartmentsByUniversityId<T>(string url) {
-		Result<IEnumerable<Department>> result = new();
-		try {
-			using HttpResponseMessage responseMessage = await HttpClient.GetAsync(url);
-			string responseMessageContent = await responseMessage.Content.ReadAsStringAsync();
-			if (responseMessage.IsSuccessStatusCode) {
-				result.Data = JsonConvert.DeserializeObject<IEnumerable<Department>>(responseMessageContent);
-			}
-			else {
-				result.ErrorMessage = "İstek sırasında hata oluştu";
-				result.Success = false;
-			}
-		}
-		catch (Exception ex) {
-			result.Success = false;
-			result.ErrorMessage = ex.Message;
-		}
-		return result;
-	}
-	private static async Task<Result<IEnumerable<University>>> GetUniversitiesByDepartmentId<T>(string url) {
-		Result<IEnumerable<University>> result = new();
-		try {
-			using HttpResponseMessage responseMessage = await HttpClient.GetAsync(url);
-			string responseMessageContent = await responseMessage.Content.ReadAsStringAsync();
-			if (responseMessage.IsSuccessStatusCode) {
-				result.Data = JsonConvert.DeserializeObject<IEnumerable<University>>(responseMessageContent);
+				result.Data = JsonConvert.DeserializeObject<T>(responseMessageContent);
 			}
 			else {
 				result.ErrorMessage = "İstek sırasında hata oluştu";

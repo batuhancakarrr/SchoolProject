@@ -25,7 +25,6 @@ public class DepartmentsController : ControllerBase {
 		if (department == null) {
 			return NotFound();
 		}
-
 		return department;
 	}
 }

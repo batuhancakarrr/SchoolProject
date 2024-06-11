@@ -14,6 +14,7 @@ public class UniversityDepartmentsController : ControllerBase {
 	}
 
 	[HttpGet("universities/{universityId}")]
+
 	public async Task<ActionResult<IEnumerable<Department>>> GetDepartmentsForUniversity(int universityId) {
 		List<Department> departments = await _context.UniversityDepartments
 										 .Where(ud => ud.UniversityId == universityId)
@@ -29,6 +30,7 @@ public class UniversityDepartmentsController : ControllerBase {
 	}
 
 	[HttpGet("departments/{departmentId}")]
+
 	public async Task<ActionResult<IEnumerable<University>>> GetUniversitiesForDepartment(int departmentId) {
 		List<University> universities = await _context.UniversityDepartments
 										 .Where(ud => ud.DepartmentId == departmentId)

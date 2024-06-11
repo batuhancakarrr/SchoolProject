@@ -5,40 +5,45 @@ using School.Dto;
 using School.Service.Abstracts;
 using School.Service.Result;
 using School.ServiceHelper.Abstracts;
+using SchoolProject.Configuration;
+using SchoolProject.Models;
 using System.Security.Claims;
 
 namespace SchoolProject.Controllers;
 public class LoginController : Controller {
 	private readonly IStudentService _studentService;
 	private readonly ITeacherService _teacherService;
-	public LoginController(IStudentService studentService, ITeacherService teacherService) {
+	private readonly HttpClientHelper _httpClientHelper;
+	public LoginController(IStudentService studentService, ITeacherService teacherService, HttpClientHelper httpClientHelper) {
 		_studentService = studentService;
 		_teacherService = teacherService;
+		_httpClientHelper = httpClientHelper;
 	}
 	public IActionResult Index() {
 		return View();
 	}
 	[HttpPost]
-	public async Task<IActionResult> Login(string username, string password, string userType) {
-		if (userType == "student") {
-			Result<StudentDTO> result = await _studentService.Login(username, password);
-			if (!result.Success) {
-				return View("Index");
-			}
+	public async Task<IActionResult> Login(LoginModel login) {
+		if (login.userType == "student") {
+			Result<StudentDTO> result = await _studentService.Login(login.username, login.password);
+			if (!result.Success) return View("Index");
+
 		}
-		else if (userType == "teacher") {
-			Result<TeacherDTO> result = await _teacherService.Login(username, password);
-			if (!result.Success) {
-				return View("Index");
-			}
+		else if (login.userType == "teacher") {
+			Result<TeacherDTO> result = await _teacherService.Login(login.username, login.password);
+			if (!result.Success) return View("Index");
 		}
-		else {
-			return View("Index");
+		else return View("Index");
+		Result<TokenModel> tokenResponse = await _httpClientHelper.Login("SchoolProject", "sp123");
+		if (!tokenResponse.Success) {
+			TempData["Failed"] = "Token hatası: " + tokenResponse.ErrorMessage;
+			return RedirectToAction("Index", "Login");
 		}
 
 		List<Claim> claims = [
-			new(ClaimTypes.Name, username),
-			new(ClaimTypes.Role, userType)
+			new(ClaimTypes.Name, login.username),
+			new(ClaimTypes.Role, login.userType),
+			new("Token", "Bearer " + tokenResponse.Data.Token),
 		];
 		ClaimsIdentity identity = new(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 		AuthenticationProperties authProperties = new();

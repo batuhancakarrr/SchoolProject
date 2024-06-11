@@ -8,24 +8,28 @@ namespace SchoolProject.Controllers;
 [Authorize]
 
 public class UniversityController : Controller {
+	private readonly HttpClientHelper _httpClientHelper;
+
+	public UniversityController(HttpClientHelper httpClientHelper) => _httpClientHelper = httpClientHelper;
+
 	public IActionResult Index() {
 		return View();
 	}
 
 	[Route("University/GetUniversities"), HttpGet]
 	public async Task<IActionResult> GetUniversities() {
-		Result<IEnumerable<University>> universities = await HttpClientHelper.GetUniversities();
+		Result<IEnumerable<University>> universities = await _httpClientHelper.GetUniversities<IEnumerable<University>>();
 		return Json(universities.Data);
 	}
 	[Route("University/GetDepartments"), HttpGet]
 	public async Task<IActionResult> GetDepartments() {
-		Result<IEnumerable<Department>> departments = await HttpClientHelper.GetDepartments();
+		Result<IEnumerable<Department>> departments = await _httpClientHelper.GetDepartments<IEnumerable<Department>>();
 		return Json(departments.Data);
 	}
 	[Route("University/GetUniversityById")]
 	[HttpGet]
 	public async Task<IActionResult> GetUniversityById(int universityId) {
-		Result<IEnumerable<Department>> result = await HttpClientHelper.GetDepartmentsByUniversityId(universityId);
+		Result<IEnumerable<Department>> result = await _httpClientHelper.GetDepartmentsByUniversityId<IEnumerable<Department>>(universityId);
 		if (result.Success) {
 			return View(result.Data);
 		}
@@ -36,7 +40,7 @@ public class UniversityController : Controller {
 	[Route("University/GetDepartmentById")]
 	[HttpGet]
 	public async Task<IActionResult> GetDepartmentById(int departmentId) {
-		Result<IEnumerable<University>> result = await HttpClientHelper.GetUniversitiesByDepartmentId(departmentId);
+		Result<IEnumerable<University>> result = await _httpClientHelper.GetUniversitiesByDepartmentId<IEnumerable<University>>(departmentId);
 		if (result.Success) {
 			return View(result.Data);
 		}
@@ -45,3 +49,5 @@ public class UniversityController : Controller {
 		}
 	}
 }
+
+

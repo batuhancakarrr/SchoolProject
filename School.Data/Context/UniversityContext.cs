@@ -8,6 +8,7 @@ public class UniversityDbContext : DbContext {
 	public DbSet<Department> Departments { get; set; }
 	public DbSet<UniversityType> Types { get; set; }
 	public DbSet<UniversityDepartment> UniversityDepartments { get; set; }
+	public DbSet<User> Users { get; set; }
 
 	public UniversityDbContext() { }
 

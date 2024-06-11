@@ -5,6 +5,9 @@
 	<link href="~/css/main.css" rel="stylesheet" />
 }
 
+<h1>@(User.Claims.First(x => x.Type == "Token").Value)</h1>
+
+
 <div class="container">
 	<div class="row">
 		<div class="col-md-3">
