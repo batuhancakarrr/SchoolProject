@@ -4,14 +4,18 @@ using Microsoft.AspNetCore.Mvc;
 using School.Dto;
 using School.Service.Abstracts;
 using School.Service.Result;
+using SchoolProject.Configuration;
+using SchoolProject.Models;
 using System.Security.Claims;
 
 namespace SchoolProject.Controllers;
 
 public class AdminController : Controller {
 	private readonly IAdminService _adminService;
-	public AdminController(IAdminService adminService) {
+	private readonly HttpClientHelper _httpClientHelper;
+	public AdminController(IAdminService adminService, HttpClientHelper httpClientHelper) {
 		_adminService = adminService;
+		_httpClientHelper = httpClientHelper;
 	}
 	public IActionResult Index() {
 		return View();
@@ -21,13 +25,19 @@ public class AdminController : Controller {
 		if (!result.Success) {
 			return View("Index");
 		}
+		Result<TokenModel> tokenResponse = await _httpClientHelper.Login("SchoolProject", "sp123");
+		if (!tokenResponse.Success) {
+			TempData["Failed"] = "Token hatası: " + tokenResponse.ErrorMessage;
+			return RedirectToAction("Index", "Login");
+		}
 
-		List<Claim> claims = new List<Claim> {
+		List<Claim> claims = [
 		new(ClaimTypes.Name, username),
-		new(ClaimTypes.Role, "admin")
-	};
-		ClaimsIdentity identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-		AuthenticationProperties authProperties = new AuthenticationProperties();
+		new(ClaimTypes.Role, "admin"),
+		new("Token", "Bearer " + tokenResponse.Data.Token)
+		];
+		ClaimsIdentity identity = new(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+		AuthenticationProperties authProperties = new();
 
 		await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), authProperties);
 

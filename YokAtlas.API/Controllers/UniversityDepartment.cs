@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using School.Data.Context;
 using School.Data.Entities.Concrete.University;
@@ -12,7 +13,7 @@ public class UniversityDepartmentsController : ControllerBase {
 	public UniversityDepartmentsController(UniversityDbContext context) {
 		_context = context;
 	}
-
+	[Authorize]
 	[HttpGet("universities/{universityId}")]
 
 	public async Task<ActionResult<IEnumerable<Department>>> GetDepartmentsForUniversity(int universityId) {
@@ -28,7 +29,7 @@ public class UniversityDepartmentsController : ControllerBase {
 
 		return departments;
 	}
-
+	[Authorize]
 	[HttpGet("departments/{departmentId}")]
 
 	public async Task<ActionResult<IEnumerable<University>>> GetUniversitiesForDepartment(int departmentId) {

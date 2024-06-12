@@ -84,3 +84,8 @@ public class HttpClientHelper {
 	}
 }
 
+/*
+ Claims erişmek için
+ _httpContextAccessor.HttpContext?.User 
+.net core'da bir class'a nasıl _httpContextAccessor'u dependency injection ile eklerim
+*/

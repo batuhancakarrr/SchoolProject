@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using School.Data.Context;
 using School.Data.Entities.Concrete.University;
@@ -12,12 +13,12 @@ public class DepartmentsController : ControllerBase {
 	public DepartmentsController(UniversityDbContext context) {
 		_context = context;
 	}
-
+	[Authorize]
 	[HttpGet]
 	public async Task<ActionResult<IEnumerable<Department>>> GetDepartments() {
 		return await _context.Departments.ToListAsync();
 	}
-
+	[Authorize]
 	[HttpGet("{id}")]
 	public async Task<ActionResult<Department>> GetDepartment(int id) {
 		Department department = await _context.Departments.FindAsync(id);
