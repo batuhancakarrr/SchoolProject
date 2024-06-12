@@ -43,5 +43,3 @@ public class DepartmentsController : ControllerBase {
 		return department;
 	}
 }
-
-

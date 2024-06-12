@@ -10,7 +10,7 @@ public class HttpClientHelper {
 	public HttpClientHelper(IHttpContextAccessor httpContextAccessor) {
 		_httpContextAccessor = httpContextAccessor;
 		HttpClient = new() {
-			BaseAddress = new("https://localhost:44359/"),
+			BaseAddress = new("https://localhost:44310/"),
 			DefaultRequestHeaders = {
 				{ "Accept", "*/*" },
 			}
@@ -38,7 +38,7 @@ public class HttpClientHelper {
 			username = username,
 			password = password
 		};
-		return await PostMethod<TokenModel>("/api/Auth/Login", loginModel);
+		return await PostMethod<TokenModel>("/api/Auth/login", loginModel);
 	}
 
 	private async Task<Result<T>> GetMethod<T>(string url) {

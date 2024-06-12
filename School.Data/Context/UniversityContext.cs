@@ -10,8 +10,6 @@ public class UniversityDbContext : DbContext {
 	public DbSet<UniversityDepartment> UniversityDepartments { get; set; }
 	public DbSet<User> Users { get; set; }
 
-	public UniversityDbContext() { }
-
 	protected override void OnModelCreating(ModelBuilder modelBuilder) {
 		modelBuilder.Entity<UniversityDepartment>()
 			.HasKey(ud => new { ud.UniversityId, ud.DepartmentId });

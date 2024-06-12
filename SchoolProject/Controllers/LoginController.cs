@@ -33,7 +33,7 @@ public class LoginController : Controller {
 			if (!result.Success) return View("Index");
 		}
 		else return View("Index");
-		Result<TokenModel> tokenResponse = await _httpClientHelper.Login("SchoolProject", "sp123");
+		Result<TokenModel> tokenResponse = await _httpClientHelper.Login("SchoolProject", "sp123"); // appsettings
 		if (!tokenResponse.Success) {
 			TempData["Failed"] = "Token hatası: " + tokenResponse.ErrorMessage;
 			return RedirectToAction("Index", "Login");

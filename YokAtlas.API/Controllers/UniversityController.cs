@@ -30,6 +30,7 @@ public class UniversitiesController : ControllerBase {
 		}
 		return Ok(cachedUniversities);
 	}
+	// TODO: Try Catch hata yakalama
 	[Authorize]
 	[HttpGet("{id}")]
 	public async Task<ActionResult<University>> GetUniversity(int id) {
@@ -41,5 +42,3 @@ public class UniversitiesController : ControllerBase {
 		return university;
 	}
 }
-
-
