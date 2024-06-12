@@ -1,10 +1,10 @@
 ﻿using Repository.Abstracts;
 using School.Data.Entities.Concrete.Schools;
 using School.Dto;
-using School.Service.Result;
+using School.ServiceHelper.Result;
 using School.ServiceHelper.Abstracts;
 
-namespace School.Service.Concretes;
+namespace School.ServiceHelper.Concretes;
 
 public class TeacherService : Service<Teacher, TeacherDTO>, ITeacherService {
     private readonly ITeacherRepository _teacherRepository;

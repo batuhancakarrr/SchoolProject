@@ -5,8 +5,6 @@ using Repository.Concretes;
 using School.Data.Context;
 using School.Repository.Abstracts;
 using School.Repository.Concretes;
-using School.Service.Abstracts;
-using School.Service.Concretes;
 using School.ServiceHelper.Abstracts;
 using School.ServiceHelper.Concretes;
 using SchoolProject.Configuration;
@@ -23,7 +21,6 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 	options.LoginPath = "/Login/Index";
 	options.AccessDeniedPath = "/Login/Index";
 });
-
 
 
 builder.Services.AddHttpContextAccessor();

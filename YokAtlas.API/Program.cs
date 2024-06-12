@@ -2,11 +2,15 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using School.Data.Context;
 using System.Text;
+using YokAtlas.API.Configuration;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
+builder.Services.AddMemoryCache();
+builder.Services.AddHttpClient();
+builder.Services.AddHostedService<CacheRefreshService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<UniversityDbContext>();
@@ -65,7 +69,10 @@ WebApplication app = builder.Build();
 if (app.Environment.IsDevelopment()) {
 	app.UseSwagger();
 	app.UseSwaggerUI();
+	app.UseDeveloperExceptionPage();
 }
+
+app.UseRouting();
 
 app.UseHttpsRedirection();
 

@@ -1,6 +1,6 @@
-﻿using School.Service.Result;
+﻿using School.ServiceHelper.Result;
 
-namespace School.Service.Abstracts;
+namespace School.ServiceHelper.Abstracts;
 public interface IService<T, DTO> where T : class where DTO : class {
     Result<List<DTO>> List();
     Result<DTO> GetById(int id, bool withTracking = false);

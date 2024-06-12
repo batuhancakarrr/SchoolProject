@@ -1,11 +1,11 @@
 ﻿using Repository.Abstracts;
 using School.Data.Entities.Concrete.Schools;
 using School.Dto;
-using School.Service.Result;
+using School.ServiceHelper.Result;
 using School.ServiceHelper.Abstracts;
 using EntitySchool = School.Data.Entities.Concrete.Schools.School;
 
-namespace School.Service.Concretes;
+namespace School.ServiceHelper.Concretes;
 
 public class SchoolService : Service<EntitySchool, SchoolDTO>, ISchoolService {
 	private readonly ISchoolRepository _schoolRepository;

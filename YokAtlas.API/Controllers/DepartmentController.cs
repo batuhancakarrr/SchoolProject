@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using School.Data.Context;
 using School.Data.Entities.Concrete.University;
 
@@ -9,14 +10,27 @@ namespace YokAtlas.API.Controllers;
 [ApiController]
 public class DepartmentsController : ControllerBase {
 	private readonly UniversityDbContext _context;
-
-	public DepartmentsController(UniversityDbContext context) {
+	private readonly IMemoryCache _memoryCache;
+	private readonly ILogger<DepartmentsController> _logger;
+	public DepartmentsController(UniversityDbContext context, IMemoryCache memoryCache, ILogger<DepartmentsController> logger) {
 		_context = context;
+		_memoryCache = memoryCache;
+		_logger = logger;
 	}
 	[Authorize]
 	[HttpGet]
 	public async Task<ActionResult<IEnumerable<Department>>> GetDepartments() {
-		return await _context.Departments.ToListAsync();
+		//_memoryCache.Remove("CachedDepartments");
+		//_memoryCache.Remove("CachedUniversities");
+		if (!_memoryCache.TryGetValue("CachedDepartments", out List<Department> cachedDepartments)) {
+			_logger.LogInformation("Cache miss - fetching data from database.");
+			cachedDepartments = await _context.Departments.ToListAsync();
+			_memoryCache.Set("CachedDepartments", cachedDepartments, TimeSpan.FromHours(24));
+		}
+		else {
+			_logger.LogInformation("Cache hit - fetching data from cache.");
+		}
+		return Ok(cachedDepartments);
 	}
 	[Authorize]
 	[HttpGet("{id}")]
@@ -29,3 +43,5 @@ public class DepartmentsController : ControllerBase {
 		return department;
 	}
 }
+
+

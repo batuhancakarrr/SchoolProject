@@ -1,9 +1,9 @@
 ﻿using Repository.Abstracts;
 using School.Data.Entities.Concrete.Schools;
 using School.Dto;
-using School.Service;
-using School.Service.Concretes;
-using School.Service.Result;
+using School.ServiceHelper;
+using School.ServiceHelper.Concretes;
+using School.ServiceHelper.Result;
 using School.ServiceHelper.Abstracts;
 
 namespace School.ServiceHelper.Concretes;

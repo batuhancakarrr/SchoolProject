@@ -1,9 +1,9 @@
 ﻿using School.Data.Entities.Concrete.Schools;
 using School.Dto;
 using School.Repository.Abstracts;
-using School.Service.Abstracts;
+using School.ServiceHelper.Abstracts;
 
-namespace School.Service.Concretes;
+namespace School.ServiceHelper.Concretes;
 
 public class CityService : Service<City, CityDTO>, ICityService {
 	private readonly ICityRepository _cityRepository;

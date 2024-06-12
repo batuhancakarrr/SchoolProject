@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using School.Data.Entities.Concrete.University;
-using School.Service.Result;
+using School.ServiceHelper.Result;
 using SchoolProject.Configuration;
 
 namespace SchoolProject.Controllers;

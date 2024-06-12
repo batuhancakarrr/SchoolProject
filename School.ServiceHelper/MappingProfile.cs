@@ -3,7 +3,7 @@ using School.Data.Entities.Concrete.Schools;
 using School.Dto;
 using EntitySchool = School.Data.Entities.Concrete.Schools.School;
 
-namespace School.Service;
+namespace School.ServiceHelper;
 
 public static class Mapping {
 	private static readonly Lazy<IMapper> Lazy = new(() => {

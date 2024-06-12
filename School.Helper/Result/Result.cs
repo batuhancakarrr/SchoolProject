@@ -1,4 +1,4 @@
-﻿namespace School.Service.Result;
+﻿namespace School.ServiceHelper.Result;
 public class Result<T> {
     public bool Success { get; set; } = true;
     public string Message { get; set; }

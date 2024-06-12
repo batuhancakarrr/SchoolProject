@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "School.Data", "School.Data\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "School.Repository", "Repository\School.Repository.csproj", "{2D82733F-8369-41C6-A3AF-3D1B6AAFD684}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "School.Service", "School.ServiceHelper\School.Service.csproj", "{FFA2BF69-A81B-48F6-B7D8-26D461260C2B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "School.ServiceHelper", "School.ServiceHelper\School.ServiceHelper.csproj", "{FFA2BF69-A81B-48F6-B7D8-26D461260C2B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "School.Dto", "DTO\School.Dto.csproj", "{157127C4-649C-4FC1-A92C-3B1BCE536D1D}"
 EndProject
@@ -19,7 +19,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{A0220324-F830-
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{783A74F1-39B3-48DA-8DD1-C6C1538E43A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YokAtlas.API", "YokAtlas.API\YokAtlas.API.csproj", "{D1E844BC-AC64-4ABA-A315-C6A4BBBE2213}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YokAtlas.API", "YokAtlas.API\YokAtlas.API.csproj", "{D1E844BC-AC64-4ABA-A315-C6A4BBBE2213}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "School.Helper", "School.Helper\School.Helper.csproj", "{F174BAC0-1488-406F-8F6D-3E39E819D0FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{D1E844BC-AC64-4ABA-A315-C6A4BBBE2213}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1E844BC-AC64-4ABA-A315-C6A4BBBE2213}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1E844BC-AC64-4ABA-A315-C6A4BBBE2213}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F174BAC0-1488-406F-8F6D-3E39E819D0FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F174BAC0-1488-406F-8F6D-3E39E819D0FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F174BAC0-1488-406F-8F6D-3E39E819D0FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F174BAC0-1488-406F-8F6D-3E39E819D0FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +68,7 @@ Global
 		{FFA2BF69-A81B-48F6-B7D8-26D461260C2B} = {56E0E200-EC99-44A5-BCC7-D356CAD4BFE5}
 		{157127C4-649C-4FC1-A92C-3B1BCE536D1D} = {56E0E200-EC99-44A5-BCC7-D356CAD4BFE5}
 		{D1E844BC-AC64-4ABA-A315-C6A4BBBE2213} = {783A74F1-39B3-48DA-8DD1-C6C1538E43A7}
+		{F174BAC0-1488-406F-8F6D-3E39E819D0FE} = {56E0E200-EC99-44A5-BCC7-D356CAD4BFE5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {919C2DA5-2606-4424-9133-15FE94B68303}

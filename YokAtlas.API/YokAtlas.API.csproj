@@ -14,7 +14,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\School.Data\School.Data.csproj" />
-		<ProjectReference Include="..\School.ServiceHelper\School.Service.csproj" />
+		<ProjectReference Include="..\School.ServiceHelper\School.ServiceHelper.csproj" />
 	</ItemGroup>
 
 </Project>

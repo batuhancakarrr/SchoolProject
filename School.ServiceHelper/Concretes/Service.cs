@@ -1,8 +1,8 @@
 ﻿using Repository.Abstracts;
-using School.Service.Abstracts;
-using School.Service.Result;
+using School.ServiceHelper.Abstracts;
+using School.ServiceHelper.Result;
 
-namespace School.Service.Concretes;
+namespace School.ServiceHelper.Concretes;
 public class Service<T, DTO> : IService<T, DTO> where T : class where DTO : class {
     private readonly IRepository<T> _repository;
 

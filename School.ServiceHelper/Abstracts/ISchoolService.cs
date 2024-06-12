@@ -1,6 +1,6 @@
 ﻿using School.Dto;
-using School.Service.Abstracts;
-using School.Service.Result;
+using School.ServiceHelper.Abstracts;
+using School.ServiceHelper.Result;
 using EntitySchool = School.Data.Entities.Concrete.Schools.School;
 
 namespace School.ServiceHelper.Abstracts;

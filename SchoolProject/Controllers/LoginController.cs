@@ -2,9 +2,8 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using School.Dto;
-using School.Service.Abstracts;
-using School.Service.Result;
 using School.ServiceHelper.Abstracts;
+using School.ServiceHelper.Result;
 using SchoolProject.Configuration;
 using SchoolProject.Models;
 using System.Security.Claims;

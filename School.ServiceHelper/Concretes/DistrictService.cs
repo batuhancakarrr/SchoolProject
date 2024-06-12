@@ -1,10 +1,10 @@
 ﻿using School.Data.Entities.Concrete.Schools;
 using School.Dto;
 using School.Repository.Abstracts;
-using School.Service.Abstracts;
-using School.Service.Result;
+using School.ServiceHelper.Abstracts;
+using School.ServiceHelper.Result;
 
-namespace School.Service.Concretes;
+namespace School.ServiceHelper.Concretes;
 
 public class DistrictService : Service<District, DistrictDTO>, IDistrictService {
     private readonly IDistrictRepository _districtRepository;

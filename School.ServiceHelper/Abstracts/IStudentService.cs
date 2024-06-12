@@ -1,8 +1,8 @@
 ﻿using School.Data.Entities.Concrete.Schools;
 using School.Dto;
-using School.Service.Result;
+using School.ServiceHelper.Result;
 
-namespace School.Service.Abstracts;
+namespace School.ServiceHelper.Abstracts;
 public interface IStudentService : IService<Student, StudentDTO> {
 	Result<List<StudentDTO>> GetStudentsWithClassAndSchool();
 	Result<StudentDTO> GetByIdWithClassAndSchool(int id);

@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using School.Service.Result;
+using School.ServiceHelper.Result;
 using SchoolProject.Models;
 using System.Text;
 
