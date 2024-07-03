@@ -11,26 +11,23 @@ namespace YokAtlas.API.Controllers;
 public class DepartmentsController : ControllerBase {
 	private readonly UniversityDbContext _context;
 	private readonly IMemoryCache _memoryCache;
-	private readonly ILogger<DepartmentsController> _logger;
-	public DepartmentsController(UniversityDbContext context, IMemoryCache memoryCache, ILogger<DepartmentsController> logger) {
+	public DepartmentsController(UniversityDbContext context, IMemoryCache memoryCache) {
 		_context = context;
 		_memoryCache = memoryCache;
-		_logger = logger;
 	}
 	[Authorize]
 	[HttpGet]
 	public async Task<ActionResult<IEnumerable<Department>>> GetDepartments() {
-		//_memoryCache.Remove("CachedDepartments");
-		//_memoryCache.Remove("CachedUniversities");
-		if (!_memoryCache.TryGetValue("CachedDepartments", out List<Department> cachedDepartments)) {
-			_logger.LogInformation("Cache miss - fetching data from database.");
-			cachedDepartments = await _context.Departments.ToListAsync();
-			_memoryCache.Set("CachedDepartments", cachedDepartments, TimeSpan.FromHours(24));
+		try {
+			if (!_memoryCache.TryGetValue("CachedDepartments", out List<Department> cachedDepartments)) {
+				cachedDepartments = await _context.Departments.ToListAsync();
+				_memoryCache.Set("CachedDepartments", cachedDepartments, TimeSpan.FromHours(24));
+			}
+			return Ok(cachedDepartments);
 		}
-		else {
-			_logger.LogInformation("Cache hit - fetching data from cache.");
+		catch (Exception ex) {
+			return StatusCode(500, "Internal server error occurred.");
 		}
-		return Ok(cachedDepartments);
 	}
 	[Authorize]
 	[HttpGet("{id}")]

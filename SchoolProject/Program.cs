@@ -8,6 +8,7 @@ using School.Repository.Concretes;
 using School.ServiceHelper.Abstracts;
 using School.ServiceHelper.Concretes;
 using SchoolProject.Configuration;
+using SchoolProject.Models;
 using System.Text.Json.Serialization;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 	options.LoginPath = "/Login/Index";
 	options.AccessDeniedPath = "/Login/Index";
 });
+builder.Services.Configure<YokAtlasModel>(builder.Configuration.GetSection("YokAtlas"));
 
 
 builder.Services.AddHttpContextAccessor();

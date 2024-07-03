@@ -1,0 +1,30 @@
+﻿#chartPopUp {
+	z-index: 1000;
+	width: 70%;
+	height: 60%;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: white;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border: 1px solid #ccc;
+	border-radius: 30px;
+}
+#chartoverlay {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 999;
+}
+#chartdiv {
+	width: 85%;
+	height: 85%;
+}

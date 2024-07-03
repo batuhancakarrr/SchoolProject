@@ -10,7 +10,7 @@ public class HttpClientHelper {
 	public HttpClientHelper(IHttpContextAccessor httpContextAccessor) {
 		_httpContextAccessor = httpContextAccessor;
 		HttpClient = new() {
-			BaseAddress = new("https://localhost:44310/"),
+			BaseAddress = new("https://localhost:44355/"),
 			DefaultRequestHeaders = {
 				{ "Accept", "*/*" },
 			}

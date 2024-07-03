@@ -98,11 +98,20 @@ $(function () {
 	$('#editformPopUp #editCity').on('change', function () {
 		loadDistricts($(this), $('#editformPopUp #editDistrict'));
 	});
+	$("#editoverlay").on("click", function (e) {
+		if (e.target.id === "editoverlay") {
+			$("#editoverlay").fadeOut();
+		}
+	});
+	$("#addoverlay").on("click", function (e) {
+		if (e.target.id === "addoverlay") {
+			$("#addoverlay").fadeOut();
+		}
+	});
 });
-
 function closePopup() {
-	$('#editoverlay').css("display", "none");
-	$('#addoverlay').css("display", "none");
+	$('#editoverlay').fadeOut();
+	$('#addoverlay').fadeOut();
 }
 
 

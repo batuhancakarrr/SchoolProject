@@ -86,7 +86,6 @@ aside {
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
-	border: 1px solid #194568;
 	background-color: #194568;
 	box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
@@ -99,6 +98,7 @@ aside {
 	}
 
 		aside > div i {
+			width: 20px;
 			margin-right: 15px;
 		}
 
@@ -110,9 +110,8 @@ aside {
 			color: #E7F7FF;
 		}
 
-			aside > div a:hover,
-			aside > div a:hover i {
-				background-color: darkkhaki;
+			aside > div a:hover {
+				background-color: #336699;
 				color: white !important;
 				transition: background-color 0.3s, color 0.3s;
 			}

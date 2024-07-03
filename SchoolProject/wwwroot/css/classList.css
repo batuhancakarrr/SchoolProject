@@ -6,7 +6,7 @@
 	overflow: hidden;
 }
 
-#new {
+#new, #chart {
 	color: #E7F7FF;
 	border: none;
 	border-radius: 10px;
@@ -19,7 +19,7 @@
 	transition: .4s;
 }
 
-	#new:hover {
+	#new:hover, #chart:hover {
 		background-color: #FF0844;
 		color: white;
 	}

@@ -1,0 +1,118 @@
+﻿/*#region PopUp*/
+
+#bulkAddFormPopUp {
+	z-index: 1000;
+	width: 400px;
+	height: 400px;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: white;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border: 1px solid #ccc;
+	border-radius: 10px;
+}
+
+	#bulkAddFormPopUp > h1 {
+		color: #194568;
+		margin-top: 0px;
+	}
+
+	#bulkAddFormPopUp > a {
+		color: #FF3E56;
+		font-size:large;
+	}
+	#bulkAddFormPopUp > a:hover {
+		text-decoration:underline;
+	}
+
+	#bulkAddFormPopUp > form {
+		display: flex;
+		flex-direction: column;
+		background-color: white;
+		justify-content: center;
+		border-radius: 25px;
+		width: 70%;
+		height: 60%;
+	}
+
+		#bulkAddFormPopUp > form > label {
+			font-weight: bold;
+			text-align: center;
+			margin: 5px 5px;
+		}
+
+		#bulkAddFormPopUp > form > span {
+			margin: 10px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 10px;
+		}
+
+			#bulkAddFormPopUp > form > span > div {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				color: #194568;
+				height: 30px;
+				width: 60px;
+				border: 1px solid #194568;
+				border-radius: 5px;
+				cursor: pointer;
+			}
+
+			#bulkAddFormPopUp > form > span #bulkEkle {
+				color: white;
+				background-color: #194568;
+				border-radius: 5px;
+				border: none;
+				height: 30px;
+				width: 60px;
+				cursor: pointer;
+			}
+
+				#bulkAddFormPopUp > form > span #bulkEkle:hover {
+					background-color: #FF3E56;
+				}
+/*#endregion*/
+#bulkAddOverlay {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 999;
+}
+.file-upload {
+	position: relative;
+	width: 100%;
+	height: 30%;
+	border: 2px dashed #194568;
+	border-radius: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
+
+	.file-upload input[type=file] {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		left: 0;
+		top: 0;
+		opacity: 0;
+		cursor: pointer;
+	}
+
+	.file-upload label {
+		font-size: 16px;
+		color: #194568;
+	}

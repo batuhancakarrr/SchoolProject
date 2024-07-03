@@ -8,17 +8,19 @@
 		new("Tercih Kılavuzu"),
 	};
 }
-@model IEnumerable<University>
+@model UniversityDepartmentViewModel
 
 <section>
 	<partial name="_Breadcrumb" model="breadcrumbs" />
-	@* TODO: js ten buraya geçir *@
 	<div>
 		<div class="card">
 			<form id="universityForm" asp-controller="University" asp-action="GetUniversityById" method="get">
 				<label for="university">Üniversiteler:</label>
 				<select id="university" name="universityId" required>
-					<option value="">Üniversite Seçin</option>
+					<option value="" selected>Seç..</option>
+					@foreach (var universities in Model.Universities) {
+						<option value="@universities.Id">@universities.Name</option>
+					}
 				</select>
 			</form>
 		</div>
@@ -26,7 +28,10 @@
 			<form id="departmentForm" asp-controller="University" asp-action="GetDepartmentById" method="get">
 				<label for="department">Lisans Bölümleri:</label>
 				<select id="department" name="departmentId" required>
-					<option value="">Bölüm Seçin</option>
+					<option value="" selected>Seç..</option>
+					@foreach (var departments in Model.Departments) {
+						<option value="@departments.Id">@departments.Name</option>
+					}
 				</select>
 			</form>
 		</div>

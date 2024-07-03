@@ -44,11 +44,35 @@
 	$("#new").on("click", function () {
 		$("#addoverlay").fadeIn();
 	});
+	$("#newbulk").on("click", function () {
+		$("#bulkAddOverlay").fadeIn();
+	});
+	$("#editoverlay").on("click", function (e) {
+		if (e.target.id === "editoverlay") {
+			$("#editoverlay").fadeOut();
+		}
+	});
+	$("#addoverlay").on("click", function (e) {
+		if (e.target.id === "addoverlay") {
+			$("#addoverlay").fadeOut();
+		}
+	});
+	$("#bulkAddOverlay").on("click", function (e) {
+		if (e.target.id === "bulkAddOverlay") {
+			$("#bulkAddOverlay").fadeOut();
+		}
+	});
 })
-
 function closePopup() {
-	$('#editoverlay').css("display", "none");
-	$('#addoverlay').css("display", "none");
+	$('#editoverlay').fadeOut();
+	$('#addoverlay').fadeOut();
+	$('#bulkAddOverlay').fadeOut();
 }
-
-
+$('#excelFile').on('change', function () {
+	var label = $(this).next('label');
+	if (this.files.length > 0) {
+		label.text(this.files[0].name);
+	} else {
+		label.text('Dosya seçin veya sürükleyin');
+	}
+});

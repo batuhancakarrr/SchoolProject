@@ -4,6 +4,7 @@
 	<link href="~/css/teacherlist.css" rel="stylesheet" />
 	<link href="~/css/addpopup.css" rel="stylesheet" />
 	<link href="~/css/editpopup.css" rel="stylesheet" />
+	<link href="~/css/addbulkpopup.css" rel="stylesheet" />
 }
 @{
 	var breadcrumbs = new List<PartialRouteModel> {
@@ -33,6 +34,27 @@
 </div>
 
 <!-- Yeni -->
+
+<!-- Toplu ekle -->
+
+<div id="bulkAddOverlay">
+	<div id="bulkAddFormPopUp">
+		<h1>Toplu Öğretmen Ekle</h1>
+		<a href="~/excel/ornek_ogretmen.xlsx" download="ornek_ogretmen.xlsx">Örnek Excel İndirmek İçin Tıklayın</a>
+		<form asp-controller="Teacher" asp-action="AddTeachersFromExcel" method="post" enctype="multipart/form-data">
+			<div class="file-upload">
+				<input type="file" id="excelFile" name="excelFile" accept=".xls,.xlsx" required />
+				<label for="excelFile">Dosya seçin veya sürükleyin</label>
+			</div>
+			<span>
+				<div onclick="closePopup()">İptal et</div>
+				<button type="submit" id="bulkEkle">Yükle</button>
+			</span>
+		</form>
+	</div>
+</div>
+
+<!-- Toplu ekle -->
 <!-- popup -->
 <div id="editoverlay">
 	<div id="editformPopUp">
@@ -53,13 +75,12 @@
 <!-- popup -->
 
 
-
-
 <section>
 	<partial name="_Breadcrumb" model="breadcrumbs" />
 
 	@if (User.IsInRole("admin")) {
 		<button type="button" id="new">Yeni Öğretmen</button>
+		<button type="button" id="newbulk">Toplu Ekle</button>
 	}
 	<table id="table" width="100%">
 		<thead>
@@ -69,8 +90,6 @@
 				<th class="bilgi" style="width:5%">Bilgi</th>
 				@if (User.IsInRole("admin")) {
 					<th class="duzenle" style="width:5%">Düzenle</th>
-				}
-				@if (User.IsInRole("admin")) {
 					<th class="sil" style="width:5%">Sil</th>
 				}
 			</tr>

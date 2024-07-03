@@ -44,10 +44,19 @@
 	$("#new").on("click", function () {
 		$("#addoverlay").fadeIn();
 	});
+	$("#editoverlay").on("click", function (e) {
+		if (e.target.id === "editoverlay") {
+			$("#editoverlay").fadeOut();
+		}
+	});
+	$("#editoverlay").on("click", function (e) {
+		if (e.target.id === "editoverlay") {
+			$("#editoverlay").fadeOut();
+		}
+	});
 })
-
 function closePopup() {
-	$('#editoverlay').css("display", "none");
-	$('#addoverlay').css("display", "none");
+	$('#editoverlay').fadeOut();
+	$('#addoverlay').fadeOut();
 }
 

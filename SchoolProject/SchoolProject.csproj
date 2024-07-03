@@ -7,6 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="NewFolder\**" />
+    <Content Remove="NewFolder\**" />
+    <EmbeddedResource Remove="NewFolder\**" />
+    <None Remove="NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="amcharts" Version="3.14.5" />
+    <PackageReference Include="ClosedXML" Version="0.102.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.4">
@@ -21,6 +30,14 @@
     <ProjectReference Include="..\Repository\School.Repository.csproj" />
     <ProjectReference Include="..\School.Data\School.Data.csproj" />
     <ProjectReference Include="..\School.ServiceHelper\School.ServiceHelper.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\excel\ornek_ogretmen.xlsx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\images\profiles\" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using School.Dto;
 using School.ServiceHelper.Abstracts;
 using School.ServiceHelper.Result;
@@ -13,10 +14,12 @@ public class LoginController : Controller {
 	private readonly IStudentService _studentService;
 	private readonly ITeacherService _teacherService;
 	private readonly HttpClientHelper _httpClientHelper;
-	public LoginController(IStudentService studentService, ITeacherService teacherService, HttpClientHelper httpClientHelper) {
+	private readonly YokAtlasModel _yokAtlasSettings;
+	public LoginController(IStudentService studentService, ITeacherService teacherService, HttpClientHelper httpClientHelper, IOptions<YokAtlasModel> yokAtlasSettings) {
 		_studentService = studentService;
 		_teacherService = teacherService;
 		_httpClientHelper = httpClientHelper;
+		_yokAtlasSettings = yokAtlasSettings.Value;
 	}
 	public IActionResult Index() {
 		return View();
@@ -33,7 +36,7 @@ public class LoginController : Controller {
 			if (!result.Success) return View("Index");
 		}
 		else return View("Index");
-		Result<TokenModel> tokenResponse = await _httpClientHelper.Login("SchoolProject", "sp123"); // appsettings
+		Result<TokenModel> tokenResponse = await _httpClientHelper.Login(_yokAtlasSettings.UserName, _yokAtlasSettings.Password); // appsettings
 		if (!tokenResponse.Success) {
 			TempData["Failed"] = "Token hatası: " + tokenResponse.ErrorMessage;
 			return RedirectToAction("Index", "Login");

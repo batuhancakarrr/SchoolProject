@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using ClosedXML.Excel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using School.Dto;
 using School.ServiceHelper.Abstracts;
@@ -59,4 +60,52 @@ public class TeacherController : Controller {
 		else TempData["Success"] = "Başarılı.";
 		return RedirectToAction(nameof(List));
 	}
+	[HttpPost]
+	[Route("Teachers/AddFromExcel")]
+	public async Task<IActionResult> AddTeachersFromExcel(IFormFile excelFile) {
+		try {
+			if (excelFile == null || excelFile.Length == 0) {
+				TempData["Failed"] = "Excel dosyası seçilmedi.";
+				return RedirectToAction(nameof(List));
+			}
+
+			using (MemoryStream stream = new()) {
+				await excelFile.CopyToAsync(stream);
+				using XLWorkbook workbook = new(stream);
+				IXLWorksheet worksheet = workbook.Worksheet(1); // İlk çalışma sayfasını seçiyoruz (1. sayfa)
+				IXLRange range = worksheet.RangeUsed(); // Kullanılan aralığı alıyoruz
+
+				foreach (IXLRangeRow row in range.RowsUsed().Skip(1)) // Başlıkları atlamak için Skip(1)
+{
+					string name = row.Cell(1).Value.ToString();
+					string branch = row.Cell(2).Value.ToString();
+
+					if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(branch)) {
+						TempData["Failed"] = "Bazı öğretmenler eklenemedi. Ad veya Branş alanı boş.";
+						continue; // Boş olan satırları atla ve bir sonraki satıra geç
+					}
+
+					TeacherDTO teacher = new() {
+						Name = name,
+						Branch = branch
+					};
+
+					Result<bool> result = _teacherService.Add(teacher);
+
+					if (!result.Data) {
+						TempData["Failed"] = "Bazı öğretmenler eklenemedi.";
+					}
+					else {
+						TempData["Success"] = "Öğretmenler başarıyla eklendi.";
+					}
+				}
+			}
+			return RedirectToAction(nameof(List));
+		}
+		catch (Exception ex) {
+			TempData["Failed"] = $"Excel dosyası okunurken bir hata oluştu: {ex.Message}";
+			return RedirectToAction(nameof(List));
+		}
+	}
 }
+

@@ -11,26 +11,24 @@ namespace YokAtlas.API.Controllers;
 public class UniversitiesController : ControllerBase {
 	private readonly UniversityDbContext _context;
 	private readonly IMemoryCache _memoryCache;
-	private readonly ILogger<UniversitiesController> _logger;
-	public UniversitiesController(UniversityDbContext context, IMemoryCache memoryCache, ILogger<UniversitiesController> logger) {
+	public UniversitiesController(UniversityDbContext context, IMemoryCache memoryCache) {
 		_context = context;
 		_memoryCache = memoryCache;
-		_logger = logger;
 	}
 	[Authorize]
 	[HttpGet]
 	public async Task<ActionResult<IEnumerable<University>>> GetUniversities() {
-		if (!_memoryCache.TryGetValue("CachedUniversities", out List<University> cachedUniversities)) {
-			_logger.LogInformation("Cache miss - fetching data from database.");
-			cachedUniversities = await _context.Universities.ToListAsync();
-			_memoryCache.Set("CachedUniversities", cachedUniversities, TimeSpan.FromHours(24));
+		try {
+			if (!_memoryCache.TryGetValue("CachedUniversities", out List<University> cachedUniversities)) {
+				cachedUniversities = await _context.Universities.ToListAsync();
+				_memoryCache.Set("CachedUniversities", cachedUniversities, TimeSpan.FromHours(24));
+			}
+			return Ok(cachedUniversities);
 		}
-		else {
-			_logger.LogInformation("Cache hit - fetching data from cache.");
+		catch (Exception ex) {
+			return StatusCode(500, ex.Message);
 		}
-		return Ok(cachedUniversities);
 	}
-	// TODO: Try Catch hata yakalama
 	[Authorize]
 	[HttpGet("{id}")]
 	public async Task<ActionResult<University>> GetUniversity(int id) {
