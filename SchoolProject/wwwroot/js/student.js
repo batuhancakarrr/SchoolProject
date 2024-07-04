@@ -41,6 +41,29 @@
 			}
 		});
 	});
+	$.ajax({
+		url: 'Class/ListJson',
+		type: 'GET',
+		success: function (response) {
+			if (response.success) {
+				console.log(response.data);
+				var classSelect = $('#editclassId, #addClassId');
+				classSelect.empty();
+				$.each(response.data, function (index, classes) {
+					console.log(classes);
+					classSelect.append($('<option>', {
+						value: classes.id,
+						text: classes.degree + "/" + classes.name
+					}));
+				});
+			} else {
+				alert(response.message);
+			}
+		},
+		error: function () {
+			alert("Okulları yüklerken bir hata oluştu.");
+		}
+	});
 	$("#new").on("click", function () {
 		$("#addoverlay").fadeIn();
 	});
@@ -49,9 +72,9 @@
 			$("#editoverlay").fadeOut();
 		}
 	});
-	$("#editoverlay").on("click", function (e) {
-		if (e.target.id === "editoverlay") {
-			$("#editoverlay").fadeOut();
+	$("#addoverlay").on("click", function (e) {
+		if (e.target.id === "addoverlay") {
+			$("#addoverlay").fadeOut();
 		}
 	});
 })

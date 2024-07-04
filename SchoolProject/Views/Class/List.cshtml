@@ -15,51 +15,6 @@
 }
 @model List<ClassDTO>
 
-<!-- Yeni -->
-<div id="addoverlay">
-	<div id="addformPopUp">
-		<h1>Sınıf Ekle</h1>
-		<form asp-controller="Classes" asp-action="Add" method="post">
-			<label>Sınıf Derecesi</label>
-			<input type="text" id="addegree" name="degree" required />
-			<label>Sınıf Adı</label>
-			<input type="text" id="addclassName" name="name" required />
-			<label>Okul ID</label>
-			<input type="text" id="addschoolId" name="schoolid" required />
-			<span>
-				<div onclick="closePopup()">İptal et</div>
-				<button type="submit" id="ekle">Kaydet</button>
-			</span>
-		</form>
-	</div>
-</div>
-<!-- Yeni -->
-<!-- popup -->
-<div id="editoverlay">
-	<div id="editformPopUp">
-		<h1>Sınıf Düzenle</h1>
-		<form>
-			<input type="hidden" id="editclassId" />
-			<label>Sınıf Derecesi</label>
-			<input type="text" id="editdegree" required />
-			<label>Sınıf Adı</label>
-			<input type="text" id="editclassName" required />
-			<span>
-				<div onclick="closePopup()">İptal et</div>
-				<button type="button" id="kaydet">Kaydet</button>
-			</span>
-		</form>
-	</div>
-</div>
-<!-- popup -->
-<!-- chart -->
-<div id="chartoverlay">
-	<div id="chartPopUp">
-		<div id="chartdiv"></div>
-	</div>
-</div>
-<!-- chart -->
-
 <section>
 	<partial name="_Breadcrumb" model="breadcrumbs" />
 
@@ -106,6 +61,52 @@
 		</tbody>
 	</table>
 </section>
+
+
+<!-- Yeni -->
+<div id="addoverlay">
+	<div id="addformPopUp">
+		<h1>Sınıf Ekle</h1>
+		<form asp-controller="Classes" asp-action="Add" method="post">
+			<label>Sınıf Derecesi</label>
+			<input type="text" id="addegree" name="degree" required />
+			<label>Sınıf Adı</label>
+			<input type="text" id="addclassName" name="name" required />
+			<label for="schoolId">Okul Seçin:</label>
+			<select id="schoolId" name="SchoolId" required></select>
+			<span>
+				<div onclick="closePopup()">İptal et</div>
+				<button type="submit" id="ekle">Kaydet</button>
+			</span>
+		</form>
+	</div>
+</div>
+<!-- Yeni -->
+<!-- popup -->
+<div id="editoverlay">
+	<div id="editformPopUp">
+		<h1>Sınıf Düzenle</h1>
+		<form>
+			<input type="hidden" id="editclassId" />
+			<label>Sınıf Derecesi</label>
+			<input type="text" id="editdegree" required />
+			<label>Sınıf Adı</label>
+			<input type="text" id="editclassName" required />
+			<span>
+				<div onclick="closePopup()">İptal et</div>
+				<button type="button" id="kaydet">Kaydet</button>
+			</span>
+		</form>
+	</div>
+</div>
+<!-- popup -->
+<!-- chart -->
+<div id="chartoverlay">
+	<div id="chartPopUp">
+		<div id="chartdiv"></div>
+	</div>
+</div>
+<!-- chart -->
 @section Scripts
 {
 	<script src="~/js/class.js"></script>

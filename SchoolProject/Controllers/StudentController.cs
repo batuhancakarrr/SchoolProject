@@ -46,6 +46,7 @@ public class StudentController : Controller {
 	public IActionResult Update(int id, string name, int classId) {
 		Result<bool> result = _studentService.Update(id, name, classId);
 		if (!result.Success) TempData["Failed"] = "BAŞARISIZ.";
+		else TempData["Success"] = "Başarılı.";
 		return RedirectToAction(nameof(List));
 	}
 	[HttpDelete]

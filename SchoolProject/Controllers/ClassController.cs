@@ -26,6 +26,13 @@ public class ClassController : Controller {
 		if (!result.Success) TempData["Failed"] = "BAŞARISIZ.";
 		return View(result.Data);
 	}
+	[HttpGet]
+	public IActionResult ListJson() {
+		Result<List<ClassDTO>> result = _classService.ListWithSchool();
+		if (!result.Success) TempData["Failed"] = "BAŞARISIZ.";
+		var data = result.Data.Select(s => new { id = s.Id, degree = s.Degree, name = s.Name }).ToList();
+		return Json(new { success = true, data });
+	}
 	[Route("Classes/GetClassStudentCounts"), HttpPost]
 	public IActionResult GetClassStudentCounts() {
 		Result<List<ClassDTO>> classResult = _classService.ListWithSchool();

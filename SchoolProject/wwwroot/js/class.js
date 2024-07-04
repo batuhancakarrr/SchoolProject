@@ -40,6 +40,29 @@
 			}
 		});
 	});
+	$.ajax({
+		url: 'School/ListJson',
+		type: 'GET',
+		success: function (response) {
+			if (response.success) {
+				console.log(response.data);
+				var schoolSelect = $('#schoolId');
+				schoolSelect.empty();
+				$.each(response.data, function (index, school) {
+					console.log(school); 
+					schoolSelect.append($('<option>', {
+						value: school.id,
+						text: school.name
+					}));
+				});
+			} else {
+				alert(response.message);
+			}
+		},
+		error: function () {
+			alert("Okulları yüklerken bir hata oluştu.");
+		}
+	});
 
 	$("#new").on("click", function () {
 		$("#addoverlay").fadeIn();

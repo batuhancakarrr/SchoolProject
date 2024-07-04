@@ -14,44 +14,6 @@
 }
 @model List<StudentDTO>
 
-<!-- Yeni -->
-
-<div id="addoverlay">
-	<div id="addformPopUp">
-		<h1>Öğrenci Ekle</h1>
-		<form asp-controller="Students" asp-action="Add" method="post">
-			<label>Öğrenci Adı</label>
-			<input type="text" id="addName" name="name" required />
-			<label>Sınıf ID</label>
-			<input type="text" id="addClassId" name="classId" required />
-			<span>
-				<div onclick="closePopup()">İptal et</div>
-				<button type="submit" id="ekle">Kaydet</button>
-			</span>
-		</form>
-	</div>
-</div>
-
-<!-- Yeni -->
-<!-- düzenle -->
-<div id="editoverlay">
-	<div id="editformPopUp">
-		<h1>Öğrenci Düzenle</h1>
-		<form>
-			<input type="hidden" id="editstudentId" />
-			<label>Öğrenci Adı</label>
-			<input type="text" id="editname" required />
-			<label>Öğrenci Sınıfı</label>
-			<input type="text" id="editclassId" required  />
-			<span>
-				<div onclick="closePopup()">İptal et</div>
-				<button type="button" id="kaydet">Kaydet</button>
-			</span>
-		</form>
-	</div>
-</div>
-<!-- düzenle -->
-
 <section>
 
 	<partial name="_Breadcrumb" model="breadcrumbs" />
@@ -98,6 +60,46 @@
 		<tbody>
 	</table>
 </section>
+
+<!-- Yeni -->
+
+<div id="addoverlay">
+	<div id="addformPopUp">
+		<h1>Öğrenci Ekle</h1>
+		<form asp-controller="Students" asp-action="Add" method="post">
+			<label>Öğrenci Adı</label>
+			<input type="text" id="addName" name="name" required />
+			<label>Sınıf</label>
+			<select type="text" id="addClassId" name="classId" required> </select>
+			<span>
+				<div onclick="closePopup()">İptal et</div>
+				<button type="submit" id="ekle">Kaydet</button>
+			</span>
+		</form>
+	</div>
+</div>
+
+<!-- Yeni -->
+<!-- düzenle -->
+<div id="editoverlay">
+	<div id="editformPopUp">
+		<h1>Öğrenci Düzenle</h1>
+		<form>
+			<input type="hidden" id="editstudentId" />
+			<label>Öğrenci Adı</label>
+			<input type="text" id="editname" required />
+			<label>Öğrenci Sınıfı</label>
+			<select type="text" id="editclassId" required> </select>
+			<span>
+				<div onclick="closePopup()">İptal et</div>
+				<button type="button" id="kaydet">Kaydet</button>
+			</span>
+		</form>
+	</div>
+</div>
+<!-- düzenle -->
+
+
 
 @section Scripts
 {
